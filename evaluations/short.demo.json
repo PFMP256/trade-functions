@@ -1,0 +1,385 @@
+{
+  "strategyId": "btc-strategy-nfp-etf-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-nfp-2026-10-02",
+  "configHash": "f4b0486c09717895c69e729cb72c59a22f952e291b0811a531b2498a57805ea1",
+  "evaluationId": "61871dbd8ddc96e8caee81d7d426e499bd1ed806e0fbccba30d90f9008c19cd1",
+  "mode": "dry_run",
+  "evaluatedAtUtc": "2026-10-02T12:46:30.000Z",
+  "evaluatedAtLocal": "2026-10-02T06:46:30.000-06:00",
+  "validUntilUtc": "2026-10-02T12:47:20.000Z",
+  "decision": "SHORT",
+  "status": "SIGNAL",
+  "reasonCodes": [
+    "SIGNAL_CONFIRMED"
+  ],
+  "explanation": "Se cumple una única dirección y la relación beneficio/riesgo después de costes.",
+  "conditions": [
+    {
+      "name": "macroLong",
+      "values": {
+        "nfp": "180000",
+        "nfpConsensus": "90000",
+        "unemployment": "4"
+      },
+      "thresholds": {
+        "unemploymentLongPct": "4.2"
+      },
+      "result": false
+    },
+    {
+      "name": "macroShort",
+      "values": {
+        "nfp": "180000",
+        "wages": "0.3",
+        "wagesConsensus": "0.3"
+      },
+      "thresholds": {
+        "nfpShortPersons": "150000"
+      },
+      "result": true
+    },
+    {
+      "name": "treasuryLong",
+      "values": {
+        "latest": "5.4"
+      },
+      "thresholds": {
+        "strictlyBelow": "5.15"
+      },
+      "result": false
+    },
+    {
+      "name": "treasuryShort",
+      "values": {
+        "latest": "5.4"
+      },
+      "thresholds": {
+        "strictlyAbove": "5.36"
+      },
+      "result": true
+    },
+    {
+      "name": "etfPositive",
+      "values": {
+        "netFlowUsd": "-2000000"
+      },
+      "thresholds": {
+        "strictlyAbove": "0"
+      },
+      "result": false
+    },
+    {
+      "name": "etfNegative",
+      "values": {
+        "netFlowUsd": "-2000000"
+      },
+      "thresholds": {
+        "strictlyBelow": "0"
+      },
+      "result": true
+    }
+  ],
+  "validationStatus": "UNVALIDATED",
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "risk": {
+    "valid": true,
+    "reasonCodes": [],
+    "direction": "SHORT",
+    "entryUsdt": "84999",
+    "takeProfitUsdt": "82000",
+    "stopLossUsdt": "86000",
+    "grossProfitPerBtc": "2999",
+    "grossLossPerBtc": "1001",
+    "costToTpPerBtc": "118.24945",
+    "costToSlPerBtc": "121.24945",
+    "netProfitPerBtc": "2880.75055",
+    "netLossPerBtc": "1122.24945",
+    "rewardRisk": "2.5669431604533198925",
+    "costs": {
+      "entryFeeBps": "5.5",
+      "exitFeeBps": "5.5",
+      "exitSlippageBps": "2",
+      "fundingToTpPerBtcUsdt": "10",
+      "fundingToSlPerBtcUsdt": "10",
+      "description": "Supuestos sintéticos de demostración, no tarifas verificadas: 5.5 bps por lado, 2 bps salida y 10 USDT/BTC para financiación en cada recorrido. Requiere validación para live."
+    }
+  },
+  "candidateEntryUsdt": "84999",
+  "dataQuality": "VALID",
+  "missingData": [],
+  "staleData": [],
+  "sources": [
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T11:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T11:00:00.000Z",
+      "availableAt": "2026-10-02T11:00:00.000Z",
+      "fetchedAt": "2026-10-02T11:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": "2026-10-02T12:30:00.000Z",
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-01T20:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-01T20:00:00.000Z",
+      "availableAt": "2026-10-01T20:00:00.000Z",
+      "fetchedAt": "2026-10-01T20:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-01T20:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-01T20:00:00.000Z",
+      "availableAt": "2026-10-01T20:00:00.000Z",
+      "fetchedAt": "2026-10-01T20:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-01T00:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-01T00:00:00.000Z",
+      "availableAt": "2026-10-01T00:00:00.000Z",
+      "fetchedAt": "2026-10-01T00:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T01:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T01:00:00.000Z",
+      "availableAt": "2026-10-02T01:00:00.000Z",
+      "fetchedAt": "2026-10-02T01:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:31:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:31:00.000Z",
+      "availableAt": "2026-10-02T12:31:00.000Z",
+      "fetchedAt": "2026-10-02T12:31:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:36:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:36:00.000Z",
+      "availableAt": "2026-10-02T12:36:00.000Z",
+      "fetchedAt": "2026-10-02T12:36:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:41:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:41:00.000Z",
+      "availableAt": "2026-10-02T12:41:00.000Z",
+      "fetchedAt": "2026-10-02T12:41:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:00.000Z",
+      "availableAt": "2026-10-02T12:46:00.000Z",
+      "fetchedAt": "2026-10-02T12:46:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  ],
+  "etfSession": {
+    "sessionDate": "2026-10-01",
+    "complete": true,
+    "availableAt": "2026-10-02T01:00:00.000Z",
+    "expectedFunds": [
+      "SYNTH_A",
+      "SYNTH_B"
+    ],
+    "coveredFunds": [
+      "SYNTH_A",
+      "SYNTH_B"
+    ],
+    "missingFunds": [],
+    "totalMatches": true
+  },
+  "employmentPublication": {
+    "period": "2026-09",
+    "releasedAtUtc": "2026-10-02T12:30:00.000Z",
+    "revision": "synthetic-v1"
+  },
+  "treasuryWindow": {
+    "fromUtc": "2026-10-02T12:31:00.000Z",
+    "toUtc": "2026-10-02T12:46:00.000Z",
+    "count": 4
+  },
+  "snapshot": {
+    "hash": "96933cacbf1f948170f8b5717c9adc8ef8a85804c16581dc573c036c999d5eaa",
+    "location": "fixtures/short.json",
+    "snapshotId": "synthetic-short-2026-10-02"
+  },
+  "execution": {
+    "tradingMode": "dry_run",
+    "executorId": "bybit-linear-executor-v1",
+    "executorVersion": "1.0.0",
+    "environment": "testnet",
+    "accountId": "synthetic-local-fixture",
+    "status": "DRY_RUN",
+    "reasonCodes": [
+      "SIMULATED_NOT_SUBMITTED"
+    ],
+    "leverage": "1",
+    "payload": {
+      "category": "linear",
+      "symbol": "BTCUSDT",
+      "side": "Sell",
+      "orderType": "Limit",
+      "timeInForce": "IOC",
+      "positionIdx": 0,
+      "qty": "0.0011",
+      "price": "84914.1",
+      "orderLinkId": "bnfp-af7a45c9937ef0ebce366e3a786c9b",
+      "reduceOnly": false,
+      "takeProfit": "82000",
+      "stopLoss": "86000",
+      "tpslMode": "Full",
+      "tpOrderType": "Market",
+      "slOrderType": "Market",
+      "tpTriggerBy": "LastPrice",
+      "slTriggerBy": "LastPrice"
+    },
+    "orderLinkId": "bnfp-af7a45c9937ef0ebce366e3a786c9b",
+    "qtyRequested": "0.0011",
+    "qtyFilled": "0",
+    "notionalPlannedUsd": "93.5",
+    "notionalFilledUsd": "0",
+    "protectionConfirmed": false,
+    "takeProfitUsdt": "82000",
+    "stopLossUsdt": "86000",
+    "simulationInstrument": "synthetic; actual Bybit specifications are fetched at runtime"
+  }
+}

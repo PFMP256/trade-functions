@@ -1,0 +1,42 @@
+{
+  "strategyId": "btc-strategy-nfp-observed-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-nfp-public-2026-10-02",
+  "validFromUtc": "2026-10-01T21:41:00Z",
+  "expiresAtUtc": "2026-10-02T21:41:00Z",
+  "timezone": "America/Mexico_City",
+  "demo": true,
+  "validationStatus": "UNVALIDATED",
+  "sourcesValidated": false,
+  "tradingMode": "dry_run",
+  "environment": "testnet",
+  "allowNewEntries": true,
+  "closeOnScenarioExpiry": true,
+  "instrument": { "exchange": "BYBIT", "symbol": "BTCUSDT", "marketType": "LINEAR_PERPETUAL", "category": "linear", "quoteCurrency": "USDT" },
+  "event": {
+    "eventId": "bls-employment-2026-09", "period": "2026-09", "scheduledAtUtc": "2026-10-02T12:30:00Z",
+    "calendarSourceUrl": "https://www.bls.gov/schedule/2026/10_sched.htm", "verifiedAtUtc": "2026-10-01T23:18:53Z"
+  },
+  "thresholds": { "unemploymentLongPct": "4.2", "nfpShortPersons": "150000" },
+  "confirmationMinutes": 15,
+  "conflictingMacroPolicy": "BLOCK",
+  "freshness": { "quoteSeconds": 60, "fxSeconds": 60, "calendarSeconds": 86400 },
+  "nextEvaluationSeconds": 300,
+  "minRewardRisk": "1.5",
+  "levels": {
+    "LONG": { "takeProfitUsd": "87400", "stopLossUsd": "82900" },
+    "SHORT": { "takeProfitUsd": "82000", "stopLossUsd": "86000" }
+  },
+  "costs": {
+    "entryFeeBps": "5.5", "exitFeeBps": "5.5", "exitSlippageBps": "2",
+    "fundingToTpPerBtcUsdt": "10", "fundingToSlPerBtcUsdt": "10",
+    "description": "Supuestos sintéticos de demostración: 5.5 bps por lado, 2 bps de deslizamiento de salida y 10 USDT/BTC de financiación por recorrido. Deben validarse antes de live; no son tarifas actuales verificadas."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000", "leverage": "20", "marginMode": "REGULAR", "positionMode": "ONE_WAY", "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1, "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10", "entryOrderType": "Limit", "timeInForce": "IOC",
+    "tpslMode": "Full", "tpOrderType": "Market", "slOrderType": "Market", "tpTriggerBy": "LastPrice", "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01", "protectionTimeoutSeconds": 15
+  }
+}

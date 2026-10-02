@@ -1,0 +1,135 @@
+{
+  "$ref": "#/definitions/executorSettings",
+  "definitions": {
+    "executorSettings": {
+      "type": "object",
+      "properties": {
+        "tradingMode": {
+          "type": "string",
+          "enum": [
+            "dry_run",
+            "testnet",
+            "live"
+          ]
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "testnet",
+            "mainnet"
+          ]
+        },
+        "expectedAccountId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dedicatedAccountConfirmed": {
+          "type": "boolean"
+        },
+        "allowNewEntries": {
+          "type": "boolean"
+        },
+        "targetPositionNotionalUsd": {
+          "type": "string",
+          "const": "100",
+          "default": "100"
+        },
+        "leverage": {
+          "type": "string",
+          "const": "1",
+          "default": "1"
+        },
+        "entrySlippageBps": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$",
+          "default": "10"
+        },
+        "monetaryPrecisionUsd": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$",
+          "default": "0.01"
+        },
+        "protectionDeadlineMs": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 15000,
+          "default": 15000
+        },
+        "quoteMaxAgeMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60000,
+          "default": 60000
+        },
+        "fxMaxAgeMs": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "default": 60000
+        },
+        "leaseTtlMs": {
+          "type": "integer",
+          "minimum": 240000,
+          "default": 240000
+        },
+        "pollIntervalMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000,
+          "default": 1000
+        },
+        "compatibilityAttestation": {
+          "type": "object",
+          "properties": {
+            "evidenceId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "verifiedAtUtc": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "executorVersion": {
+              "type": "string",
+              "const": "1.0.0"
+            },
+            "environment": {
+              "type": "string",
+              "const": "testnet"
+            },
+            "combination": {
+              "type": "string",
+              "const": "BTCUSDT:Limit:IOC:Full:Market:LastPrice"
+            },
+            "initialProtectionConfirmed": {
+              "type": "boolean",
+              "const": true
+            },
+            "partialFillProtectionConfirmed": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [
+            "evidenceId",
+            "verifiedAtUtc",
+            "executorVersion",
+            "environment",
+            "combination",
+            "initialProtectionConfirmed",
+            "partialFillProtectionConfirmed"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "tradingMode",
+        "environment",
+        "expectedAccountId",
+        "dedicatedAccountConfirmed",
+        "allowNewEntries"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

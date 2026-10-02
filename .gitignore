@@ -1,0 +1,38 @@
+# Dependencias y compilación
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Secretos y credenciales: nunca se suben
+.env
+.env.*
+!.env.example
+.secret.local
+service-account*.json
+credentials*.json
+*.pem
+*.key
+*.p12
+
+# Firebase y emuladores
+.firebase/
+.runtimeconfig.json
+*-debug.log
+
+# Estado local: staging de despliegues, evidencias y verificaciones de GCP
+.local/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editores y sistema operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configuración local de Claude Code
+.claude/settings.local.json

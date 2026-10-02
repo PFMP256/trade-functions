@@ -1,0 +1,331 @@
+{
+  "snapshotId": "synthetic-short-2026-10-02",
+  "location": "fixtures/short.json",
+  "environment": "testnet",
+  "synthetic": true,
+  "quote": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "category": "linear",
+    "quoteCurrency": "USDT",
+    "environment": "testnet",
+    "bid": "84999",
+    "ask": "85000",
+    "last": "85000",
+    "mark": "85000",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "usdPerUsdt": {
+    "value": "1",
+    "unit": "USD_PER_USDT",
+    "seriesId": "USD_USDT",
+    "period": "2026-10-02",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "calendar": {
+    "eventId": "bls-employment-2026-09",
+    "period": "2026-09",
+    "scheduledAtUtc": "2026-10-02T12:30:00.000Z",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T11:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T11:00:00.000Z",
+      "availableAt": "2026-10-02T11:00:00.000Z",
+      "fetchedAt": "2026-10-02T11:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "employment": {
+    "eventId": "bls-employment-2026-09",
+    "period": "2026-09",
+    "releasedAtUtc": "2026-10-02T12:30:00.000Z",
+    "nfp": {
+      "value": "180000",
+      "unit": "persons",
+      "seriesId": "US_NFP_CHANGE",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:30:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:30:00.000Z",
+        "availableAt": "2026-10-02T12:30:00.000Z",
+        "fetchedAt": "2026-10-02T12:30:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    },
+    "unemployment": {
+      "value": "4.0",
+      "unit": "percent",
+      "seriesId": "US_UNEMPLOYMENT_RATE",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:30:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:30:00.000Z",
+        "availableAt": "2026-10-02T12:30:00.000Z",
+        "fetchedAt": "2026-10-02T12:30:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    },
+    "wages": {
+      "value": "0.3",
+      "unit": "percent_mom",
+      "seriesId": "US_AHE_MOM",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:30:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:30:00.000Z",
+        "availableAt": "2026-10-02T12:30:00.000Z",
+        "fetchedAt": "2026-10-02T12:30:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    },
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": "2026-10-02T12:30:00.000Z",
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "consensus": {
+    "eventId": "bls-employment-2026-09",
+    "period": "2026-09",
+    "frozenAtUtc": "2026-10-01T20:01:00.000Z",
+    "nfp": {
+      "value": "90000",
+      "unit": "persons",
+      "seriesId": "US_NFP_CHANGE",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-01T20:00:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-01T20:00:00.000Z",
+        "availableAt": "2026-10-01T20:00:00.000Z",
+        "fetchedAt": "2026-10-01T20:00:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    },
+    "wages": {
+      "value": "0.3",
+      "unit": "percent_mom",
+      "seriesId": "US_AHE_MOM",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-01T20:00:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-01T20:00:00.000Z",
+        "availableAt": "2026-10-01T20:00:00.000Z",
+        "fetchedAt": "2026-10-01T20:00:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    }
+  },
+  "treasury": [
+    {
+      "value": "5.4",
+      "unit": "percent",
+      "seriesId": "US10Y_NOMINAL",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:31:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:31:00.000Z",
+        "availableAt": "2026-10-02T12:31:00.000Z",
+        "fetchedAt": "2026-10-02T12:31:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      },
+      "frequency": "intraday"
+    },
+    {
+      "value": "5.4",
+      "unit": "percent",
+      "seriesId": "US10Y_NOMINAL",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:36:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:36:00.000Z",
+        "availableAt": "2026-10-02T12:36:00.000Z",
+        "fetchedAt": "2026-10-02T12:36:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      },
+      "frequency": "intraday"
+    },
+    {
+      "value": "5.4",
+      "unit": "percent",
+      "seriesId": "US10Y_NOMINAL",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:41:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:41:00.000Z",
+        "availableAt": "2026-10-02T12:41:00.000Z",
+        "fetchedAt": "2026-10-02T12:41:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      },
+      "frequency": "intraday"
+    },
+    {
+      "value": "5.4",
+      "unit": "percent",
+      "seriesId": "US10Y_NOMINAL",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:46:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:46:00.000Z",
+        "availableAt": "2026-10-02T12:46:00.000Z",
+        "fetchedAt": "2026-10-02T12:46:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      },
+      "frequency": "intraday"
+    }
+  ],
+  "etf": {
+    "sessionDate": "2026-10-01",
+    "expectedFunds": [
+      "SYNTH_A",
+      "SYNTH_B"
+    ],
+    "funds": [
+      {
+        "fund": "SYNTH_A",
+        "netFlowUsd": "-2000000",
+        "rawValue": "-2.0"
+      },
+      {
+        "fund": "SYNTH_B",
+        "netFlowUsd": "0",
+        "rawValue": "0.0"
+      }
+    ],
+    "totalUsd": "-2000000",
+    "complete": true,
+    "unit": "USD",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T01:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T01:00:00.000Z",
+      "availableAt": "2026-10-02T01:00:00.000Z",
+      "fetchedAt": "2026-10-02T01:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "marketCalendar": {
+    "calendarId": "synthetic-nyse-2026",
+    "coverageFrom": "2026-10-01",
+    "coverageTo": "2026-10-03",
+    "sessions": [
+      {
+        "sessionDate": "2026-10-01",
+        "closeAtUtc": "2026-10-01T20:00:00.000Z"
+      },
+      {
+        "sessionDate": "2026-10-02",
+        "closeAtUtc": "2026-10-02T20:00:00.000Z"
+      }
+    ],
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-01T00:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-01T00:00:00.000Z",
+      "availableAt": "2026-10-01T00:00:00.000Z",
+      "fetchedAt": "2026-10-01T00:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "providerErrors": []
+}

@@ -1,0 +1,267 @@
+{
+  "$ref": "#/definitions/executionResult",
+  "definitions": {
+    "executionResult": {
+      "type": "object",
+      "properties": {
+        "tradingMode": {
+          "type": "string",
+          "enum": [
+            "dry_run",
+            "testnet",
+            "live"
+          ]
+        },
+        "executorId": {
+          "type": "string",
+          "const": "bybit-linear-executor-v1"
+        },
+        "executorVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "testnet",
+            "mainnet"
+          ]
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PREPARED",
+            "SUBMITTING",
+            "UNKNOWN",
+            "REJECTED",
+            "CANCELLED",
+            "PARTIALLY_FILLED",
+            "FILLED",
+            "PROTECTED",
+            "CLOSING",
+            "CLOSED",
+            "EMERGENCY_CLOSE_PENDING",
+            "BLOCKED",
+            "DRY_RUN",
+            "NO_ENTRY",
+            "LOCKED"
+          ]
+        },
+        "reasonCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "leverage": {
+          "type": "string",
+          "const": "1"
+        },
+        "orderLinkId": {
+          "type": "string",
+          "maxLength": 36
+        },
+        "orderId": {
+          "type": "string"
+        },
+        "qtyRequested": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "qtyFilled": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "qtyRemaining": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "avgFillPrice": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "notionalPlannedUsd": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "notionalFilledUsd": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "protectionConfirmed": {
+          "type": "boolean"
+        },
+        "feesUsdt": {
+          "type": "string",
+          "pattern": "^-?\\d+(\\.\\d+)?$"
+        },
+        "takeProfitUsdt": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "stopLossUsdt": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$"
+        },
+        "feesByCurrency": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^-?\\d+(\\.\\d+)?$"
+          }
+        },
+        "nextReconcileAtUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "const": "linear"
+            },
+            "symbol": {
+              "type": "string",
+              "const": "BTCUSDT"
+            },
+            "side": {
+              "type": "string",
+              "enum": [
+                "Buy",
+                "Sell"
+              ]
+            },
+            "orderType": {
+              "type": "string",
+              "const": "Limit"
+            },
+            "timeInForce": {
+              "type": "string",
+              "const": "IOC"
+            },
+            "positionIdx": {
+              "type": "number",
+              "const": 0
+            },
+            "qty": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "price": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "orderLinkId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 36
+            },
+            "reduceOnly": {
+              "type": "boolean",
+              "const": false
+            },
+            "takeProfit": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "stopLoss": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "tpslMode": {
+              "type": "string",
+              "const": "Full"
+            },
+            "tpOrderType": {
+              "type": "string",
+              "const": "Market"
+            },
+            "slOrderType": {
+              "type": "string",
+              "const": "Market"
+            },
+            "tpTriggerBy": {
+              "type": "string",
+              "const": "LastPrice"
+            },
+            "slTriggerBy": {
+              "type": "string",
+              "const": "LastPrice"
+            }
+          },
+          "required": [
+            "category",
+            "symbol",
+            "side",
+            "orderType",
+            "timeInForce",
+            "positionIdx",
+            "qty",
+            "price",
+            "orderLinkId",
+            "reduceOnly",
+            "takeProfit",
+            "stopLoss",
+            "tpslMode",
+            "tpOrderType",
+            "slOrderType",
+            "tpTriggerBy",
+            "slTriggerBy"
+          ],
+          "additionalProperties": false
+        },
+        "reconciled": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "scenarioId": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "PREPARED",
+                  "SUBMITTING",
+                  "UNKNOWN",
+                  "REJECTED",
+                  "CANCELLED",
+                  "PARTIALLY_FILLED",
+                  "FILLED",
+                  "PROTECTED",
+                  "CLOSING",
+                  "CLOSED",
+                  "EMERGENCY_CLOSE_PENDING"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "scenarioId",
+              "state"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "tradingMode",
+        "executorId",
+        "executorVersion",
+        "environment",
+        "accountId",
+        "status",
+        "reasonCodes",
+        "leverage"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

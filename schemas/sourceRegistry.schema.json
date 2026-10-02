@@ -1,0 +1,52 @@
+{
+  "$ref": "#/definitions/sourceRegistry",
+  "definitions": {
+    "sourceRegistry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "allowedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "minItems": 1
+          },
+          "usageApproved": {
+            "type": "boolean"
+          },
+          "allowedKinds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "calendar",
+                "employment",
+                "consensus",
+                "treasury",
+                "etf",
+                "marketCalendar",
+                "usdPerUsdt"
+              ]
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "sourceId",
+          "allowedOrigins",
+          "usageApproved",
+          "allowedKinds"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

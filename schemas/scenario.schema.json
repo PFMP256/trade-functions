@@ -1,0 +1,814 @@
+{
+  "$ref": "#/definitions/scenario",
+  "definitions": {
+    "scenario": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "strategyId": {
+              "type": "string",
+              "const": "btc-strategy-nfp-etf-v1"
+            },
+            "strategyVersion": {
+              "type": "string",
+              "const": "1.0.0"
+            },
+            "scenarioId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "validFromUtc": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expiresAtUtc": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "timezone": {
+              "type": "string",
+              "const": "America/Mexico_City"
+            },
+            "demo": {
+              "type": "boolean"
+            },
+            "validationStatus": {
+              "type": "string",
+              "enum": [
+                "UNVALIDATED",
+                "VALIDATED"
+              ]
+            },
+            "sourcesValidated": {
+              "type": "boolean"
+            },
+            "tradingMode": {
+              "type": "string",
+              "enum": [
+                "dry_run",
+                "testnet",
+                "live"
+              ]
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "testnet",
+                "mainnet"
+              ]
+            },
+            "allowNewEntries": {
+              "type": "boolean"
+            },
+            "closeOnScenarioExpiry": {
+              "type": "boolean"
+            },
+            "instrument": {
+              "type": "object",
+              "properties": {
+                "exchange": {
+                  "type": "string",
+                  "const": "BYBIT"
+                },
+                "symbol": {
+                  "type": "string",
+                  "const": "BTCUSDT"
+                },
+                "marketType": {
+                  "type": "string",
+                  "const": "LINEAR_PERPETUAL"
+                },
+                "category": {
+                  "type": "string",
+                  "const": "linear"
+                },
+                "quoteCurrency": {
+                  "type": "string",
+                  "const": "USDT"
+                }
+              },
+              "required": [
+                "exchange",
+                "symbol",
+                "marketType",
+                "category",
+                "quoteCurrency"
+              ],
+              "additionalProperties": false
+            },
+            "event": {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "type": "string"
+                },
+                "period": {
+                  "type": "string"
+                },
+                "scheduledAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "calendarSourceUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "verifiedAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "eventId",
+                "period",
+                "scheduledAtUtc",
+                "calendarSourceUrl",
+                "verifiedAtUtc"
+              ],
+              "additionalProperties": false
+            },
+            "thresholds": {
+              "type": "object",
+              "properties": {
+                "unemploymentLongPct": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "nfpShortPersons": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "treasuryLongBelowPct": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "treasuryShortAbovePct": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              },
+              "required": [
+                "unemploymentLongPct",
+                "nfpShortPersons",
+                "treasuryLongBelowPct",
+                "treasuryShortAbovePct"
+              ],
+              "additionalProperties": false
+            },
+            "confirmationMinutes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "minTreasuryObservations": {
+              "type": "integer",
+              "minimum": 2
+            },
+            "maxTreasuryGapSeconds": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "conflictingMacroPolicy": {
+              "type": "string",
+              "enum": [
+                "BLOCK",
+                "REQUIRE_UNIQUE_DIRECTION"
+              ]
+            },
+            "freshness": {
+              "type": "object",
+              "properties": {
+                "quoteSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "treasurySeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "fxSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "calendarSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "quoteSeconds",
+                "treasurySeconds",
+                "fxSeconds",
+                "calendarSeconds"
+              ],
+              "additionalProperties": false
+            },
+            "nextEvaluationSeconds": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "minRewardRisk": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "levels": {
+              "type": "object",
+              "properties": {
+                "LONG": {
+                  "type": "object",
+                  "properties": {
+                    "takeProfitUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "stopLossUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    }
+                  },
+                  "required": [
+                    "takeProfitUsd",
+                    "stopLossUsd"
+                  ],
+                  "additionalProperties": false
+                },
+                "SHORT": {
+                  "type": "object",
+                  "properties": {
+                    "takeProfitUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "stopLossUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    }
+                  },
+                  "required": [
+                    "takeProfitUsd",
+                    "stopLossUsd"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "LONG",
+                "SHORT"
+              ],
+              "additionalProperties": false
+            },
+            "costs": {
+              "type": "object",
+              "properties": {
+                "entryFeeBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "exitFeeBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "exitSlippageBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "fundingToTpPerBtcUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "fundingToSlPerBtcUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "entryFeeBps",
+                "exitFeeBps",
+                "exitSlippageBps",
+                "fundingToTpPerBtcUsdt",
+                "fundingToSlPerBtcUsdt",
+                "description"
+              ],
+              "additionalProperties": false
+            },
+            "execution": {
+              "type": "object",
+              "properties": {
+                "targetPositionNotionalUsd": {
+                  "type": "string",
+                  "const": "100"
+                },
+                "leverage": {
+                  "type": "string",
+                  "const": "1"
+                },
+                "marginMode": {
+                  "type": "string",
+                  "const": "ISOLATED"
+                },
+                "positionMode": {
+                  "type": "string",
+                  "const": "ONE_WAY"
+                },
+                "positionIdx": {
+                  "type": "number",
+                  "const": 0
+                },
+                "maxOpenPositionsPerSymbol": {
+                  "type": "number",
+                  "const": 1
+                },
+                "maxEntryIntentsPerScenario": {
+                  "type": "number",
+                  "const": 1
+                },
+                "entrySlippageBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "entryOrderType": {
+                  "type": "string",
+                  "const": "Limit"
+                },
+                "timeInForce": {
+                  "type": "string",
+                  "const": "IOC"
+                },
+                "tpslMode": {
+                  "type": "string",
+                  "const": "Full"
+                },
+                "tpOrderType": {
+                  "type": "string",
+                  "const": "Market"
+                },
+                "slOrderType": {
+                  "type": "string",
+                  "const": "Market"
+                },
+                "tpTriggerBy": {
+                  "type": "string",
+                  "const": "LastPrice"
+                },
+                "slTriggerBy": {
+                  "type": "string",
+                  "const": "LastPrice"
+                },
+                "monetaryPrecisionUsd": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "protectionTimeoutSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "targetPositionNotionalUsd",
+                "leverage",
+                "marginMode",
+                "positionMode",
+                "positionIdx",
+                "maxOpenPositionsPerSymbol",
+                "maxEntryIntentsPerScenario",
+                "entrySlippageBps",
+                "entryOrderType",
+                "timeInForce",
+                "tpslMode",
+                "tpOrderType",
+                "slOrderType",
+                "tpTriggerBy",
+                "slTriggerBy",
+                "monetaryPrecisionUsd",
+                "protectionTimeoutSeconds"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "strategyId",
+            "strategyVersion",
+            "scenarioId",
+            "validFromUtc",
+            "expiresAtUtc",
+            "timezone",
+            "demo",
+            "validationStatus",
+            "sourcesValidated",
+            "tradingMode",
+            "environment",
+            "allowNewEntries",
+            "closeOnScenarioExpiry",
+            "instrument",
+            "event",
+            "thresholds",
+            "confirmationMinutes",
+            "minTreasuryObservations",
+            "maxTreasuryGapSeconds",
+            "conflictingMacroPolicy",
+            "freshness",
+            "nextEvaluationSeconds",
+            "minRewardRisk",
+            "levels",
+            "costs",
+            "execution"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "strategyId": {
+              "type": "string",
+              "const": "btc-strategy-nfp-observed-v1"
+            },
+            "strategyVersion": {
+              "type": "string",
+              "const": "1.0.0"
+            },
+            "scenarioId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "validFromUtc": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expiresAtUtc": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "timezone": {
+              "type": "string",
+              "const": "America/Mexico_City"
+            },
+            "demo": {
+              "type": "boolean"
+            },
+            "validationStatus": {
+              "type": "string",
+              "enum": [
+                "UNVALIDATED",
+                "VALIDATED"
+              ]
+            },
+            "sourcesValidated": {
+              "type": "boolean"
+            },
+            "tradingMode": {
+              "type": "string",
+              "enum": [
+                "dry_run",
+                "testnet",
+                "live"
+              ]
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "testnet",
+                "mainnet"
+              ]
+            },
+            "allowNewEntries": {
+              "type": "boolean"
+            },
+            "closeOnScenarioExpiry": {
+              "type": "boolean"
+            },
+            "instrument": {
+              "type": "object",
+              "properties": {
+                "exchange": {
+                  "type": "string",
+                  "const": "BYBIT"
+                },
+                "symbol": {
+                  "type": "string",
+                  "const": "BTCUSDT"
+                },
+                "marketType": {
+                  "type": "string",
+                  "const": "LINEAR_PERPETUAL"
+                },
+                "category": {
+                  "type": "string",
+                  "const": "linear"
+                },
+                "quoteCurrency": {
+                  "type": "string",
+                  "const": "USDT"
+                }
+              },
+              "required": [
+                "exchange",
+                "symbol",
+                "marketType",
+                "category",
+                "quoteCurrency"
+              ],
+              "additionalProperties": false
+            },
+            "event": {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "type": "string"
+                },
+                "period": {
+                  "type": "string"
+                },
+                "scheduledAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "calendarSourceUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "verifiedAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "eventId",
+                "period",
+                "scheduledAtUtc",
+                "calendarSourceUrl",
+                "verifiedAtUtc"
+              ],
+              "additionalProperties": false
+            },
+            "thresholds": {
+              "type": "object",
+              "properties": {
+                "unemploymentLongPct": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "nfpShortPersons": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              },
+              "required": [
+                "unemploymentLongPct",
+                "nfpShortPersons"
+              ],
+              "additionalProperties": false
+            },
+            "confirmationMinutes": {
+              "type": "number",
+              "const": 15
+            },
+            "conflictingMacroPolicy": {
+              "type": "string",
+              "const": "BLOCK"
+            },
+            "freshness": {
+              "type": "object",
+              "properties": {
+                "quoteSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "fxSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                },
+                "calendarSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "quoteSeconds",
+                "fxSeconds",
+                "calendarSeconds"
+              ],
+              "additionalProperties": false
+            },
+            "nextEvaluationSeconds": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "minRewardRisk": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "levels": {
+              "type": "object",
+              "properties": {
+                "LONG": {
+                  "type": "object",
+                  "properties": {
+                    "takeProfitUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "stopLossUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    }
+                  },
+                  "required": [
+                    "takeProfitUsd",
+                    "stopLossUsd"
+                  ],
+                  "additionalProperties": false
+                },
+                "SHORT": {
+                  "type": "object",
+                  "properties": {
+                    "takeProfitUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "stopLossUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    }
+                  },
+                  "required": [
+                    "takeProfitUsd",
+                    "stopLossUsd"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "LONG",
+                "SHORT"
+              ],
+              "additionalProperties": false
+            },
+            "costs": {
+              "type": "object",
+              "properties": {
+                "entryFeeBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "exitFeeBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "exitSlippageBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "fundingToTpPerBtcUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "fundingToSlPerBtcUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "entryFeeBps",
+                "exitFeeBps",
+                "exitSlippageBps",
+                "fundingToTpPerBtcUsdt",
+                "fundingToSlPerBtcUsdt",
+                "description"
+              ],
+              "additionalProperties": false
+            },
+            "execution": {
+              "type": "object",
+              "properties": {
+                "targetPositionNotionalUsd": {
+                  "type": "string",
+                  "const": "100"
+                },
+                "leverage": {
+                  "type": "string",
+                  "const": "1"
+                },
+                "marginMode": {
+                  "type": "string",
+                  "const": "ISOLATED"
+                },
+                "positionMode": {
+                  "type": "string",
+                  "const": "ONE_WAY"
+                },
+                "positionIdx": {
+                  "type": "number",
+                  "const": 0
+                },
+                "maxOpenPositionsPerSymbol": {
+                  "type": "number",
+                  "const": 1
+                },
+                "maxEntryIntentsPerScenario": {
+                  "type": "number",
+                  "const": 1
+                },
+                "entrySlippageBps": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "entryOrderType": {
+                  "type": "string",
+                  "const": "Limit"
+                },
+                "timeInForce": {
+                  "type": "string",
+                  "const": "IOC"
+                },
+                "tpslMode": {
+                  "type": "string",
+                  "const": "Full"
+                },
+                "tpOrderType": {
+                  "type": "string",
+                  "const": "Market"
+                },
+                "slOrderType": {
+                  "type": "string",
+                  "const": "Market"
+                },
+                "tpTriggerBy": {
+                  "type": "string",
+                  "const": "LastPrice"
+                },
+                "slTriggerBy": {
+                  "type": "string",
+                  "const": "LastPrice"
+                },
+                "monetaryPrecisionUsd": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "protectionTimeoutSeconds": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "targetPositionNotionalUsd",
+                "leverage",
+                "marginMode",
+                "positionMode",
+                "positionIdx",
+                "maxOpenPositionsPerSymbol",
+                "maxEntryIntentsPerScenario",
+                "entrySlippageBps",
+                "entryOrderType",
+                "timeInForce",
+                "tpslMode",
+                "tpOrderType",
+                "slOrderType",
+                "tpTriggerBy",
+                "slTriggerBy",
+                "monetaryPrecisionUsd",
+                "protectionTimeoutSeconds"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "strategyId",
+            "strategyVersion",
+            "scenarioId",
+            "validFromUtc",
+            "expiresAtUtc",
+            "timezone",
+            "demo",
+            "validationStatus",
+            "sourcesValidated",
+            "tradingMode",
+            "environment",
+            "allowNewEntries",
+            "closeOnScenarioExpiry",
+            "instrument",
+            "event",
+            "thresholds",
+            "confirmationMinutes",
+            "conflictingMacroPolicy",
+            "freshness",
+            "nextEvaluationSeconds",
+            "minRewardRisk",
+            "levels",
+            "costs",
+            "execution"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

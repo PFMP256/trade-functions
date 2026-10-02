@@ -1,0 +1,155 @@
+{
+  "$ref": "#/definitions/executionRequest",
+  "definitions": {
+    "executionRequest": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "LONG",
+            "SHORT",
+            "NO_TRADE"
+          ]
+        },
+        "scenarioId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "configHash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validUntilUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresAtUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isDemo": {
+          "type": "boolean"
+        },
+        "sourcesValidated": {
+          "type": "boolean"
+        },
+        "snapshotSynthetic": {
+          "type": "boolean"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "testnet",
+            "mainnet"
+          ]
+        },
+        "closeOnScenarioExpiry": {
+          "type": "boolean"
+        },
+        "usdPerUsdt": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "observedAtUtc": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "verified": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "value",
+            "observedAtUtc",
+            "verified"
+          ],
+          "additionalProperties": false
+        },
+        "levels": {
+          "type": "object",
+          "properties": {
+            "takeProfitUsd": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "stopLossUsd": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            }
+          },
+          "required": [
+            "takeProfitUsd",
+            "stopLossUsd"
+          ],
+          "additionalProperties": false
+        },
+        "costs": {
+          "type": "object",
+          "properties": {
+            "entryFeeBps": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "exitFeeBps": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "exitSlippageBps": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "fundingToTpPerBtcUsdt": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "fundingToSlPerBtcUsdt": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entryFeeBps",
+            "exitFeeBps",
+            "exitSlippageBps",
+            "fundingToTpPerBtcUsdt",
+            "fundingToSlPerBtcUsdt",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "minRewardRisk": {
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?$",
+          "default": "1.5"
+        }
+      },
+      "required": [
+        "decision",
+        "scenarioId",
+        "evaluationId",
+        "configHash",
+        "validUntilUtc",
+        "expiresAtUtc",
+        "isDemo",
+        "sourcesValidated",
+        "snapshotSynthetic",
+        "environment",
+        "closeOnScenarioExpiry"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

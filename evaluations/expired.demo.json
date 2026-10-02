@@ -1,0 +1,53 @@
+{
+  "strategyId": "btc-strategy-nfp-etf-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-nfp-2026-10-02",
+  "configHash": "f4b0486c09717895c69e729cb72c59a22f952e291b0811a531b2498a57805ea1",
+  "evaluationId": "d800e2df52cb5b48040a315a41650c09ac8cec31d9c1ecad4a05e29ed3675100",
+  "mode": "dry_run",
+  "evaluatedAtUtc": "2026-10-02T21:42:00.000Z",
+  "evaluatedAtLocal": "2026-10-02T15:42:00.000-06:00",
+  "validUntilUtc": "2026-10-02T21:42:00.000Z",
+  "decision": "NO_TRADE",
+  "status": "BLOCKED",
+  "reasonCodes": [
+    "SCENARIO_EXPIRED"
+  ],
+  "explanation": "El escenario ha vencido; no autoriza nuevas entradas.",
+  "conditions": [],
+  "validationStatus": "UNVALIDATED",
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "risk": null,
+  "candidateEntryUsdt": null,
+  "dataQuality": "INVALID",
+  "missingData": [],
+  "staleData": [],
+  "sources": [],
+  "etfSession": null,
+  "employmentPublication": null,
+  "treasuryWindow": null,
+  "snapshot": {
+    "hash": "903c6c98258c220fe4159c0053a96558a16500bdbe84331ac48c25a692c1c767",
+    "location": "fixtures/long.json",
+    "snapshotId": "synthetic-long-2026-10-02"
+  },
+  "execution": {
+    "tradingMode": "dry_run",
+    "executorId": "bybit-linear-executor-v1",
+    "executorVersion": "1.0.0",
+    "environment": "testnet",
+    "accountId": "synthetic-local-fixture",
+    "status": "NO_ENTRY",
+    "reasonCodes": [
+      "NO_TRADE"
+    ],
+    "leverage": "1",
+    "simulationInstrument": "synthetic; actual Bybit specifications are fetched at runtime"
+  }
+}

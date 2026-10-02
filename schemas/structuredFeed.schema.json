@@ -1,0 +1,1316 @@
+{
+  "$ref": "#/definitions/structuredFeed",
+  "definitions": {
+    "structuredFeed": {
+      "type": "object",
+      "properties": {
+        "usdPerUsdt": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "unit": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "period": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "seriesId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "value",
+                "unit",
+                "period",
+                "seriesId",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calendar": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "type": "string"
+                },
+                "period": {
+                  "type": "string"
+                },
+                "scheduledAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "eventId",
+                "period",
+                "scheduledAtUtc",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "employment": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "type": "string"
+                },
+                "period": {
+                  "type": "string"
+                },
+                "releasedAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "nfp": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "period": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "seriesId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "provenance": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sourceUrl": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "observedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "publishedAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "firstSeenAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "availableAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "fetchedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "verified": {
+                              "type": "boolean"
+                            },
+                            "synthetic": {
+                              "type": "boolean"
+                            },
+                            "conflicts": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "evidenceSha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "sourceUrl",
+                            "observedAt",
+                            "publishedAt",
+                            "firstSeenAt",
+                            "availableAt",
+                            "fetchedAt",
+                            "revision",
+                            "verified",
+                            "synthetic",
+                            "conflicts"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "value",
+                        "unit",
+                        "period",
+                        "seriesId",
+                        "provenance"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "unemployment": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "period": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "seriesId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "provenance": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sourceUrl": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "observedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "publishedAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "firstSeenAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "availableAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "fetchedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "verified": {
+                              "type": "boolean"
+                            },
+                            "synthetic": {
+                              "type": "boolean"
+                            },
+                            "conflicts": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "evidenceSha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "sourceUrl",
+                            "observedAt",
+                            "publishedAt",
+                            "firstSeenAt",
+                            "availableAt",
+                            "fetchedAt",
+                            "revision",
+                            "verified",
+                            "synthetic",
+                            "conflicts"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "value",
+                        "unit",
+                        "period",
+                        "seriesId",
+                        "provenance"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "wages": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "period": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "seriesId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "provenance": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sourceUrl": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "observedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "publishedAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "firstSeenAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "availableAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "fetchedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "verified": {
+                              "type": "boolean"
+                            },
+                            "synthetic": {
+                              "type": "boolean"
+                            },
+                            "conflicts": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "evidenceSha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "sourceUrl",
+                            "observedAt",
+                            "publishedAt",
+                            "firstSeenAt",
+                            "availableAt",
+                            "fetchedAt",
+                            "revision",
+                            "verified",
+                            "synthetic",
+                            "conflicts"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "value",
+                        "unit",
+                        "period",
+                        "seriesId",
+                        "provenance"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "eventId",
+                "period",
+                "releasedAtUtc",
+                "nfp",
+                "unemployment",
+                "wages",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consensus": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "eventId": {
+                  "type": "string"
+                },
+                "period": {
+                  "type": "string"
+                },
+                "frozenAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "nfp": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "period": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "seriesId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "provenance": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sourceUrl": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "observedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "publishedAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "firstSeenAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "availableAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "fetchedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "verified": {
+                              "type": "boolean"
+                            },
+                            "synthetic": {
+                              "type": "boolean"
+                            },
+                            "conflicts": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "evidenceSha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "sourceUrl",
+                            "observedAt",
+                            "publishedAt",
+                            "firstSeenAt",
+                            "availableAt",
+                            "fetchedAt",
+                            "revision",
+                            "verified",
+                            "synthetic",
+                            "conflicts"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "value",
+                        "unit",
+                        "period",
+                        "seriesId",
+                        "provenance"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "wages": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "period": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "seriesId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "provenance": {
+                          "type": "object",
+                          "properties": {
+                            "sourceId": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "sourceUrl": {
+                              "type": "string",
+                              "format": "uri"
+                            },
+                            "observedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "publishedAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "firstSeenAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "availableAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "fetchedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "revision": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "verified": {
+                              "type": "boolean"
+                            },
+                            "synthetic": {
+                              "type": "boolean"
+                            },
+                            "conflicts": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "evidenceSha256": {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            }
+                          },
+                          "required": [
+                            "sourceId",
+                            "sourceUrl",
+                            "observedAt",
+                            "publishedAt",
+                            "firstSeenAt",
+                            "availableAt",
+                            "fetchedAt",
+                            "revision",
+                            "verified",
+                            "synthetic",
+                            "conflicts"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "value",
+                        "unit",
+                        "period",
+                        "seriesId",
+                        "provenance"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "eventId",
+                "period",
+                "frozenAtUtc",
+                "nfp",
+                "wages"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "treasury": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "pattern": "^-?\\d+(?:\\.\\d+)?$"
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "period": {
+                "type": "string",
+                "minLength": 1
+              },
+              "seriesId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provenance": {
+                "type": "object",
+                "properties": {
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sourceUrl": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "observedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "publishedAt": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "firstSeenAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "availableAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "fetchedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "revision": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "verified": {
+                    "type": "boolean"
+                  },
+                  "synthetic": {
+                    "type": "boolean"
+                  },
+                  "conflicts": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "evidenceSha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "sourceId",
+                  "sourceUrl",
+                  "observedAt",
+                  "publishedAt",
+                  "firstSeenAt",
+                  "availableAt",
+                  "fetchedAt",
+                  "revision",
+                  "verified",
+                  "synthetic",
+                  "conflicts"
+                ],
+                "additionalProperties": false
+              },
+              "frequency": {
+                "type": "string",
+                "enum": [
+                  "intraday",
+                  "daily"
+                ]
+              }
+            },
+            "required": [
+              "value",
+              "unit",
+              "period",
+              "seriesId",
+              "provenance",
+              "frequency"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "etf": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "sessionDate": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "expectedFunds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1
+                },
+                "funds": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "fund": {
+                        "type": "string"
+                      },
+                      "netFlowUsd": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "rawValue": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "fund",
+                      "netFlowUsd",
+                      "rawValue"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "totalUsd": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "complete": {
+                  "type": "boolean"
+                },
+                "unit": {
+                  "type": "string",
+                  "const": "USD"
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "sessionDate",
+                "expectedFunds",
+                "funds",
+                "totalUsd",
+                "complete",
+                "unit",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "marketCalendar": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "calendarId": {
+                  "type": "string"
+                },
+                "coverageFrom": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "coverageTo": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "sessions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "sessionDate": {
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                      },
+                      "closeAtUtc": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    },
+                    "required": [
+                      "sessionDate",
+                      "closeAtUtc"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "calendarId",
+                "coverageFrom",
+                "coverageTo",
+                "sessions",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "usdPerUsdt",
+        "calendar",
+        "employment",
+        "consensus",
+        "treasury",
+        "etf",
+        "marketCalendar"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,129 @@
+{
+  "snapshotId": "synthetic-public-short-2026-10-02",
+  "location": "fixtures/public-short.json",
+  "environment": "testnet",
+  "synthetic": true,
+  "quote": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "category": "linear",
+    "quoteCurrency": "USDT",
+    "environment": "testnet",
+    "bid": "84999",
+    "ask": "85000",
+    "last": "85000",
+    "mark": "85000",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "usdPerUsdt": {
+    "value": "1",
+    "unit": "USD_PER_USDT",
+    "seriesId": "USD_USDT",
+    "period": "2026-10-02",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "calendar": {
+    "eventId": "bls-employment-2026-09",
+    "period": "2026-09",
+    "scheduledAtUtc": "2026-10-02T12:30:00.000Z",
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T11:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T11:00:00.000Z",
+      "availableAt": "2026-10-02T11:00:00.000Z",
+      "fetchedAt": "2026-10-02T11:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "employment": {
+    "eventId": "bls-employment-2026-09",
+    "period": "2026-09",
+    "releasedAtUtc": "2026-10-02T12:30:00.000Z",
+    "nfp": {
+      "value": "180000",
+      "unit": "persons",
+      "seriesId": "US_NFP_CHANGE",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:30:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:30:00.000Z",
+        "availableAt": "2026-10-02T12:30:00.000Z",
+        "fetchedAt": "2026-10-02T12:30:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    },
+    "unemployment": {
+      "value": "4.0",
+      "unit": "percent",
+      "seriesId": "US_UNEMPLOYMENT_RATE",
+      "period": "2026-09",
+      "provenance": {
+        "sourceId": "synthetic-fixture",
+        "sourceUrl": "https://example.invalid/synthetic-fixture",
+        "observedAt": "2026-10-02T12:30:00.000Z",
+        "publishedAt": null,
+        "firstSeenAt": "2026-10-02T12:30:00.000Z",
+        "availableAt": "2026-10-02T12:30:00.000Z",
+        "fetchedAt": "2026-10-02T12:30:00.000Z",
+        "revision": "synthetic-v1",
+        "verified": true,
+        "synthetic": true,
+        "conflicts": []
+      }
+    },
+    "wages": null,
+    "provenance": {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": "2026-10-02T12:30:00.000Z",
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  },
+  "consensus": null,
+  "treasury": [],
+  "etf": null,
+  "marketCalendar": null,
+  "providerErrors": []
+}

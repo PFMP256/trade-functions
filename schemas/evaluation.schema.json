@@ -1,0 +1,565 @@
+{
+  "$ref": "#/definitions/evaluation",
+  "definitions": {
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "strategyId": {
+          "type": "string",
+          "enum": [
+            "btc-strategy-nfp-etf-v1",
+            "btc-strategy-nfp-observed-v1"
+          ]
+        },
+        "strategyVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "scenarioId": {
+          "type": "string"
+        },
+        "configHash": {
+          "type": "string"
+        },
+        "evaluationId": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "dry_run",
+            "testnet",
+            "live"
+          ]
+        },
+        "evaluatedAtUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evaluatedAtLocal": {
+          "type": "string"
+        },
+        "validUntilUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "LONG",
+            "SHORT",
+            "NO_TRADE"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "SIGNAL",
+            "WAITING",
+            "BLOCKED",
+            "ERROR"
+          ]
+        },
+        "reasonCodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "values": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "thresholds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "result": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "string",
+                    "const": "unknown"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "values",
+              "thresholds",
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "validationStatus": {
+          "type": "string",
+          "enum": [
+            "UNVALIDATED",
+            "VALIDATED"
+          ]
+        },
+        "instrument": {
+          "type": "object",
+          "properties": {
+            "exchange": {
+              "type": "string",
+              "const": "BYBIT"
+            },
+            "symbol": {
+              "type": "string",
+              "const": "BTCUSDT"
+            },
+            "marketType": {
+              "type": "string",
+              "const": "LINEAR_PERPETUAL"
+            },
+            "category": {
+              "type": "string",
+              "const": "linear"
+            },
+            "quoteCurrency": {
+              "type": "string",
+              "const": "USDT"
+            }
+          },
+          "required": [
+            "exchange",
+            "symbol",
+            "marketType",
+            "category",
+            "quoteCurrency"
+          ],
+          "additionalProperties": false
+        },
+        "risk": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "valid": {
+                  "type": "boolean"
+                },
+                "reasonCodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "direction": {
+                  "type": "string",
+                  "enum": [
+                    "LONG",
+                    "SHORT"
+                  ]
+                },
+                "entryUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "takeProfitUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "stopLossUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "grossProfitPerBtc": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "grossLossPerBtc": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "costToTpPerBtc": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "costToSlPerBtc": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "netProfitPerBtc": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "netLossPerBtc": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "rewardRisk": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "costs": {
+                  "type": "object",
+                  "properties": {
+                    "entryFeeBps": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "exitFeeBps": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "exitSlippageBps": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "fundingToTpPerBtcUsdt": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "fundingToSlPerBtcUsdt": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "description": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "entryFeeBps",
+                    "exitFeeBps",
+                    "exitSlippageBps",
+                    "fundingToTpPerBtcUsdt",
+                    "fundingToSlPerBtcUsdt",
+                    "description"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "valid",
+                "reasonCodes",
+                "direction",
+                "entryUsdt",
+                "takeProfitUsdt",
+                "stopLossUsdt",
+                "grossProfitPerBtc",
+                "grossLossPerBtc",
+                "costToTpPerBtc",
+                "costToSlPerBtc",
+                "netProfitPerBtc",
+                "netLossPerBtc",
+                "rewardRisk",
+                "costs"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidateEntryUsdt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dataQuality": {
+          "type": "string",
+          "enum": [
+            "VALID",
+            "INCOMPLETE",
+            "INVALID"
+          ]
+        },
+        "missingData": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "staleData": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceUrl": {
+                "type": "string",
+                "format": "uri"
+              },
+              "observedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "publishedAt": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "firstSeenAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "availableAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "fetchedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "revision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "verified": {
+                "type": "boolean"
+              },
+              "synthetic": {
+                "type": "boolean"
+              },
+              "conflicts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "evidenceSha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "sourceId",
+              "sourceUrl",
+              "observedAt",
+              "publishedAt",
+              "firstSeenAt",
+              "availableAt",
+              "fetchedAt",
+              "revision",
+              "verified",
+              "synthetic",
+              "conflicts"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "etfSession": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "sessionDate": {
+                  "type": "string"
+                },
+                "complete": {
+                  "type": "boolean"
+                },
+                "availableAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "expectedFunds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "coveredFunds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "missingFunds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "totalMatches": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "sessionDate",
+                "complete",
+                "availableAt",
+                "expectedFunds",
+                "coveredFunds",
+                "missingFunds",
+                "totalMatches"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "employmentPublication": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "period": {
+                  "type": "string"
+                },
+                "releasedAtUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "revision": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "period",
+                "releasedAtUtc",
+                "revision"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "treasuryWindow": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "fromUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "toUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "count": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "fromUtc",
+                "toUtc",
+                "count"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "snapshot": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "snapshotId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "hash",
+            "location",
+            "snapshotId"
+          ],
+          "additionalProperties": false
+        },
+        "execution": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      },
+      "required": [
+        "strategyId",
+        "strategyVersion",
+        "scenarioId",
+        "configHash",
+        "evaluationId",
+        "mode",
+        "evaluatedAtUtc",
+        "evaluatedAtLocal",
+        "validUntilUtc",
+        "decision",
+        "status",
+        "reasonCodes",
+        "explanation",
+        "conditions",
+        "validationStatus",
+        "instrument",
+        "risk",
+        "candidateEntryUsdt",
+        "dataQuality",
+        "missingData",
+        "staleData",
+        "sources",
+        "etfSession",
+        "employmentPublication",
+        "treasuryWindow",
+        "snapshot",
+        "execution"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

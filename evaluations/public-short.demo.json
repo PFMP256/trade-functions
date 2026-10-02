@@ -1,0 +1,216 @@
+{
+  "strategyId": "btc-strategy-nfp-observed-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-nfp-public-2026-10-02",
+  "configHash": "5c04f2c6a82d1b48370efd419782c70e9bad7e97aedcb8fbac58d8b7a9869c4f",
+  "evaluationId": "9fb2c4d9b071ea0f7f9734b0b4bf07cf0fbedb4472f7dffbc2d00360c850b7e1",
+  "mode": "dry_run",
+  "evaluatedAtUtc": "2026-10-02T12:46:30.000Z",
+  "evaluatedAtLocal": "2026-10-02T06:46:30.000-06:00",
+  "validUntilUtc": "2026-10-02T12:47:20.000Z",
+  "decision": "SHORT",
+  "status": "SIGNAL",
+  "reasonCodes": [
+    "SIGNAL_CONFIRMED"
+  ],
+  "explanation": "Una única condición de empleo observado habilita la dirección y el riesgo neto cumple el mínimo.",
+  "conditions": [
+    {
+      "name": "macroLong",
+      "values": {
+        "unemployment": "4"
+      },
+      "thresholds": {
+        "unemploymentLongPct": "4.2"
+      },
+      "result": false
+    },
+    {
+      "name": "macroShort",
+      "values": {
+        "nfp": "180000"
+      },
+      "thresholds": {
+        "nfpShortPersons": "150000"
+      },
+      "result": true
+    },
+    {
+      "name": "publicationWait",
+      "values": {
+        "initialDetectionUtc": "2026-10-02T12:30:00.000Z"
+      },
+      "thresholds": {
+        "minutes": "15"
+      },
+      "result": true
+    }
+  ],
+  "validationStatus": "UNVALIDATED",
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "risk": {
+    "valid": true,
+    "reasonCodes": [],
+    "direction": "SHORT",
+    "entryUsdt": "84999",
+    "takeProfitUsdt": "82000",
+    "stopLossUsdt": "86000",
+    "grossProfitPerBtc": "2999",
+    "grossLossPerBtc": "1001",
+    "costToTpPerBtc": "118.24945",
+    "costToSlPerBtc": "121.24945",
+    "netProfitPerBtc": "2880.75055",
+    "netLossPerBtc": "1122.24945",
+    "rewardRisk": "2.5669431604533198925",
+    "costs": {
+      "entryFeeBps": "5.5",
+      "exitFeeBps": "5.5",
+      "exitSlippageBps": "2",
+      "fundingToTpPerBtcUsdt": "10",
+      "fundingToSlPerBtcUsdt": "10",
+      "description": "Supuestos sintéticos de demostración: 5.5 bps por lado, 2 bps de deslizamiento de salida y 10 USDT/BTC de financiación por recorrido. Deben validarse antes de live; no son tarifas actuales verificadas."
+    }
+  },
+  "candidateEntryUsdt": "84999",
+  "dataQuality": "VALID",
+  "missingData": [],
+  "staleData": [],
+  "sources": [
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T11:00:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T11:00:00.000Z",
+      "availableAt": "2026-10-02T11:00:00.000Z",
+      "fetchedAt": "2026-10-02T11:00:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": "2026-10-02T12:30:00.000Z",
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:30:00.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:30:00.000Z",
+      "availableAt": "2026-10-02T12:30:00.000Z",
+      "fetchedAt": "2026-10-02T12:30:00.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    },
+    {
+      "sourceId": "synthetic-fixture",
+      "sourceUrl": "https://example.invalid/synthetic-fixture",
+      "observedAt": "2026-10-02T12:46:20.000Z",
+      "publishedAt": null,
+      "firstSeenAt": "2026-10-02T12:46:20.000Z",
+      "availableAt": "2026-10-02T12:46:20.000Z",
+      "fetchedAt": "2026-10-02T12:46:20.000Z",
+      "revision": "synthetic-v1",
+      "verified": true,
+      "synthetic": true,
+      "conflicts": []
+    }
+  ],
+  "etfSession": null,
+  "employmentPublication": {
+    "period": "2026-09",
+    "releasedAtUtc": "2026-10-02T12:30:00.000Z",
+    "revision": "synthetic-v1"
+  },
+  "treasuryWindow": null,
+  "snapshot": {
+    "hash": "4ba8643a269e904561f6ba3d8a1fa9269b5997b0cab9dbee2c93284c05a56228",
+    "location": "fixtures/public-short.json",
+    "snapshotId": "synthetic-public-short-2026-10-02"
+  },
+  "execution": {
+    "tradingMode": "dry_run",
+    "executorId": "bybit-linear-executor-v1",
+    "executorVersion": "1.0.0",
+    "environment": "testnet",
+    "accountId": "synthetic-local-fixture",
+    "status": "DRY_RUN",
+    "reasonCodes": [
+      "SIMULATED_NOT_SUBMITTED"
+    ],
+    "leverage": "1",
+    "payload": {
+      "category": "linear",
+      "symbol": "BTCUSDT",
+      "side": "Sell",
+      "orderType": "Limit",
+      "timeInForce": "IOC",
+      "positionIdx": 0,
+      "qty": "0.0011",
+      "price": "84914.1",
+      "orderLinkId": "bnfp-9f5181e076cc9f9d23b9d24851564e",
+      "reduceOnly": false,
+      "takeProfit": "82000",
+      "stopLoss": "86000",
+      "tpslMode": "Full",
+      "tpOrderType": "Market",
+      "slOrderType": "Market",
+      "tpTriggerBy": "LastPrice",
+      "slTriggerBy": "LastPrice"
+    },
+    "orderLinkId": "bnfp-9f5181e076cc9f9d23b9d24851564e",
+    "qtyRequested": "0.0011",
+    "qtyFilled": "0",
+    "notionalPlannedUsd": "93.5",
+    "notionalFilledUsd": "0",
+    "protectionConfirmed": false,
+    "takeProfitUsdt": "82000",
+    "stopLossUsdt": "86000",
+    "simulationInstrument": "synthetic; actual Bybit specifications are fetched at runtime"
+  }
+}
