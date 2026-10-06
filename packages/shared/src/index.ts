@@ -5,6 +5,7 @@ import Decimal from 'decimal.js';
 export const STRATEGY_ID = 'btc-strategy-nfp-etf-v1' as const;
 export const STRATEGY_VERSION = '1.0.0' as const;
 export const PUBLIC_NFP_STRATEGY_ID = 'btc-strategy-nfp-observed-v1' as const;
+export const FUNDAMENTAL_TRIGGER_STRATEGY_ID = 'btc-strategy-fundamental-trigger-v1' as const;
 export const EXECUTOR_ID = 'bybit-linear-executor-v1' as const;
 export const EXECUTOR_VERSION = '1.0.0' as const;
 export const utcSchema = z.string().datetime();
@@ -64,12 +65,24 @@ export const etfReportSchema = z.object({
   provenance: provenanceSchema,
 }).strict();
 export type EtfReport = z.infer<typeof etfReportSchema>;
+export const klineRangeSchema = z.object({
+  minPrice: positiveDecimalSchema,
+  maxPrice: positiveDecimalSchema,
+  fromUtc: utcSchema,
+  toUtc: utcSchema,
+  count: z.number().int().nonnegative(),
+  candles: z.array(z.unknown()).optional(),
+  provenance: provenanceSchema,
+}).strict();
+export type KlineRange = z.infer<typeof klineRangeSchema>;
 export const snapshotSchema = z.object({
   snapshotId: z.string().min(1), location: z.string().optional(), environment: environmentSchema,
   synthetic: z.boolean(), quote: quoteSchema.nullable(), usdPerUsdt: numericDatumSchema.nullable(),
   calendar: eventCalendarSchema.nullable(), employment: employmentReportSchema.nullable(),
   consensus: consensusSchema.nullable(), treasury: z.array(treasuryObservationSchema),
   etf: etfReportSchema.nullable(), marketCalendar: marketCalendarSchema.nullable(),
+  klines: klineRangeSchema.nullable().optional(),
+  priceRangeSinceValidFrom: klineRangeSchema.nullable().optional(),
   providerErrors: z.array(z.string()),
 }).strict();
 export type Snapshot = z.infer<typeof snapshotSchema>;
@@ -137,7 +150,106 @@ export const publicNfpScenarioConfigSchema = scenarioConfigSchema.innerType()
     if (v.tradingMode==='testnet'&&v.environment!=='testnet') ctx.addIssue({code:'custom',message:'Testnet requires testnet environment'});
   });
 export type PublicNfpScenarioConfig = z.infer<typeof publicNfpScenarioConfigSchema>;
-export const anyScenarioConfigSchema = z.union([scenarioConfigSchema,publicNfpScenarioConfigSchema]);
+export const fundamentalTriggerScenarioConfigSchema = z.object({
+  strategyId: z.literal(FUNDAMENTAL_TRIGGER_STRATEGY_ID),
+  strategyVersion: z.literal(STRATEGY_VERSION),
+  scenarioId: z.string().min(1),
+  validFromUtc: utcSchema,
+  expiresAtUtc: utcSchema,
+  timezone: z.literal('America/Mexico_City'),
+  direction: z.enum(['LONG', 'SHORT']),
+  entryZone: z.union([
+    z.tuple([positiveDecimalSchema, positiveDecimalSchema]),
+    z.object({
+      min: positiveDecimalSchema,
+      max: positiveDecimalSchema,
+      minUsdt: positiveDecimalSchema.optional(),
+      maxUsdt: positiveDecimalSchema.optional(),
+    }).strict(),
+  ]),
+  referencePriceUsdt: positiveDecimalSchema.optional(),
+  projectedRange: z.union([
+    z.tuple([positiveDecimalSchema, positiveDecimalSchema]),
+    z.object({
+      min: positiveDecimalSchema,
+      max: positiveDecimalSchema,
+    }).strict(),
+  ]).optional(),
+  thesis: z.string().optional(),
+  takeProfitUsd: positiveDecimalSchema.optional(),
+  stopLossUsd: positiveDecimalSchema.optional(),
+  takeProfitUsdt: positiveDecimalSchema.optional(),
+  stopLossUsdt: positiveDecimalSchema.optional(),
+  levels: z.union([
+    z.object({
+      LONG: levelSchema.optional(),
+      SHORT: levelSchema.optional(),
+    }).strict(),
+    z.object({
+      takeProfitUsd: positiveDecimalSchema,
+      stopLossUsd: positiveDecimalSchema,
+    }).strict(),
+  ]).optional(),
+  demo: z.boolean().default(false),
+  validationStatus: z.enum(['UNVALIDATED', 'VALIDATED']),
+  sourcesValidated: z.boolean(),
+  tradingMode: tradingModeSchema,
+  environment: environmentSchema,
+  allowNewEntries: z.boolean(),
+  closeOnScenarioExpiry: z.literal(true),
+  instrument: instrumentSchema,
+  freshness: z.object({
+    quoteSeconds: z.number().int().positive(),
+    fxSeconds: z.number().int().positive(),
+  }).strict(),
+  nextEvaluationSeconds: z.number().int().positive(),
+  minRewardRisk: positiveDecimalSchema.refine(v => Number(v) >= 1.5, 'RR must be at least 1.5'),
+  costs: costAssumptionsSchema,
+  execution: z.object({
+    targetPositionNotionalUsd: z.enum(['100', '2000']).default('2000'),
+    leverage: z.enum(['1', '20']).default('20'),
+    marginMode: z.enum(['ISOLATED', 'REGULAR']).default('REGULAR'),
+    positionMode: z.literal('ONE_WAY'),
+    positionIdx: z.literal(0),
+    maxOpenPositionsPerSymbol: z.literal(1),
+    maxEntryIntentsPerScenario: z.literal(1),
+    entrySlippageBps: nonnegativeDecimalSchema,
+    entryOrderType: z.literal('Limit'),
+    timeInForce: z.literal('IOC'),
+    tpslMode: z.literal('Full'),
+    tpOrderType: z.literal('Market'),
+    slOrderType: z.literal('Market'),
+    tpTriggerBy: z.literal('LastPrice'),
+    slTriggerBy: z.literal('LastPrice'),
+    monetaryPrecisionUsd: positiveDecimalSchema,
+    protectionTimeoutSeconds: z.number().int().positive(),
+  }).strict(),
+}).strict().superRefine((v, ctx) => {
+  if (Date.parse(v.validFromUtc) >= Date.parse(v.expiresAtUtc)) ctx.addIssue({code:'custom',message:'Invalid scenario validity window'});
+  if (v.tradingMode === 'live' && v.environment !== 'mainnet') ctx.addIssue({code:'custom',message:'Live requires mainnet'});
+  if (v.tradingMode === 'testnet' && v.environment !== 'testnet') ctx.addIssue({code:'custom',message:'Testnet requires testnet environment'});
+  const [minZone, maxZone] = Array.isArray(v.entryZone)
+    ? [new Decimal(v.entryZone[0]), new Decimal(v.entryZone[1])]
+    : [new Decimal(v.entryZone.min ?? v.entryZone.minUsdt!), new Decimal(v.entryZone.max ?? v.entryZone.maxUsdt!)];
+  if (minZone.gt(maxZone)) ctx.addIssue({code:'custom',message:'Entry zone min must be <= max'});
+  const tp = v.takeProfitUsd ?? v.takeProfitUsdt ?? (v.levels && ('takeProfitUsd' in v.levels ? v.levels.takeProfitUsd : v.levels[v.direction]?.takeProfitUsd));
+  const sl = v.stopLossUsd ?? v.stopLossUsdt ?? (v.levels && ('stopLossUsd' in v.levels ? v.levels.stopLossUsd : v.levels[v.direction]?.stopLossUsd));
+  if (!tp || !sl) {
+    ctx.addIssue({code:'custom',message:'takeProfit and stopLoss must be provided'});
+  } else {
+    const tpDec = new Decimal(tp);
+    const slDec = new Decimal(sl);
+    if (v.direction === 'LONG') {
+      if (tpDec.lte(maxZone)) ctx.addIssue({code:'custom',message:'LONG takeProfit must be above upper entry zone boundary'});
+      if (slDec.gte(minZone)) ctx.addIssue({code:'custom',message:'LONG stopLoss must be below lower entry zone boundary'});
+    } else {
+      if (tpDec.gte(minZone)) ctx.addIssue({code:'custom',message:'SHORT takeProfit must be below lower entry zone boundary'});
+      if (slDec.lte(maxZone)) ctx.addIssue({code:'custom',message:'SHORT stopLoss must be above upper entry zone boundary'});
+    }
+  }
+});
+export type FundamentalTriggerScenarioConfig = z.infer<typeof fundamentalTriggerScenarioConfigSchema>;
+export const anyScenarioConfigSchema = z.union([scenarioConfigSchema, publicNfpScenarioConfigSchema, fundamentalTriggerScenarioConfigSchema]);
 export type AnyScenarioConfig = z.infer<typeof anyScenarioConfigSchema>;
 export type TriState = true | false | 'unknown';
 export const conditionSchema = z.object({ name: z.string(), values: z.record(z.string(), z.string().nullable()),
@@ -151,7 +263,7 @@ export const riskResultSchema = z.object({ valid: z.boolean(), reasonCodes: z.ar
 }).strict();
 export type RiskResult = z.infer<typeof riskResultSchema>;
 export const evaluationSchema = z.object({
-  strategyId: z.enum([STRATEGY_ID,PUBLIC_NFP_STRATEGY_ID]), strategyVersion: z.literal(STRATEGY_VERSION), scenarioId: z.string(),
+  strategyId: z.enum([STRATEGY_ID,PUBLIC_NFP_STRATEGY_ID,FUNDAMENTAL_TRIGGER_STRATEGY_ID]), strategyVersion: z.literal(STRATEGY_VERSION), scenarioId: z.string(),
   configHash: z.string(), evaluationId: z.string(), mode: tradingModeSchema,
   evaluatedAtUtc: utcSchema, evaluatedAtLocal: z.string(), validUntilUtc: utcSchema,
   decision: z.enum(['LONG','SHORT','NO_TRADE']), status: z.enum(['SIGNAL','WAITING','BLOCKED','ERROR']),

@@ -2,7 +2,9 @@ param(
   [ValidatePattern('^[a-z][a-z0-9-]{4,28}[a-z0-9]$')]
   [string]$ProjectId = 'trade-functions-20261001',
   [ValidatePattern('^[a-z]+(?:-[a-z]+)*[0-9]+$')]
-  [string]$Region = 'southamerica-east1'
+  [string]$Region = 'southamerica-east1',
+  [string]$FunctionName = 'runBtcNfpEtfBybitV1',
+  [string]$RecoveryJobName = 'btc-nfp-etf-recovery'
 )
 
 # Verifies the private production deployment while execution remains dry_run.
@@ -28,7 +30,7 @@ function Assert-UnconditionalBinding {
   param($Policy, [string]$Role, [string]$Member, [string]$Failure)
   if (@($Policy.bindings | Where-Object { $_.role -eq $Role -and $Member -in $_.members -and -not $_.condition }).Count -lt 1) { throw $Failure }
 }
-$functionName = 'runBtcNfpEtfBybitV1'
+$functionName = $FunctionName
 $functionJson = & gcloud functions describe $functionName --gen2 --project=$projectId --region=$region --format=json
 if ($LASTEXITCODE -ne 0) { throw 'FUNCTION_DESCRIPTION_FAILED' }
 $function = $functionJson | ConvertFrom-Json
@@ -78,10 +80,10 @@ Assert-UnconditionalBinding $queuePolicy 'roles/cloudtasks.enqueuer' "serviceAcc
 Assert-UnconditionalBinding $queuePolicy 'roles/cloudtasks.viewer' "serviceAccount:$runtimeSa" 'RUNTIME_QUEUE_VIEWER_MISSING'
 $schedulerPolicy = Get-GcloudJson @('iam','service-accounts','get-iam-policy',$schedulerSa,"--project=$ProjectId")
 Assert-UnconditionalBinding $schedulerPolicy 'roles/iam.serviceAccountUser' "serviceAccount:$runtimeSa" 'RUNTIME_SCHEDULER_ACT_AS_MISSING'
-$recoveryJob = Get-GcloudJson @('scheduler','jobs','describe','btc-nfp-etf-recovery',"--project=$ProjectId","--location=$Region")
+$recoveryJob = Get-GcloudJson @('scheduler','jobs','describe',$RecoveryJobName,"--project=$ProjectId","--location=$Region")
 try { $recoveryBody = ConvertFrom-JsonText -Text ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String([string]$recoveryJob.httpTarget.body))) }
 catch { throw 'RECOVERY_JOB_BODY_INVALID' }
-if ($recoveryJob.state -ne 'ENABLED' -or $recoveryJob.schedule -ne '* * * * *' -or $recoveryJob.timeZone -ne 'UTC' -or
+if ($recoveryJob.state -ne 'ENABLED' -or $recoveryJob.schedule -notin @('* * * * *', '*/5 * * * *') -or $recoveryJob.timeZone -ne 'UTC' -or
     $recoveryJob.httpTarget.uri -ne $url -or $recoveryJob.httpTarget.httpMethod -ne 'POST' -or
     $recoveryJob.httpTarget.oidcToken.serviceAccountEmail -ne $schedulerSa -or $recoveryJob.httpTarget.oidcToken.audience -ne $url -or
     $recoveryJob.httpTarget.headers.'Content-Type' -ne 'application/json' -or
@@ -122,7 +124,7 @@ $requestHeaders = @{ Authorization = "Bearer $($identity.token)" }
 $reconcile = Invoke-FunctionCheck -RequestHeaders $requestHeaders -Body '{"kind":"reconcile"}'
 if ($reconcile.httpStatus -ne 200) { throw "RECONCILE_SMOKE_FAILED_HTTP_$($reconcile.httpStatus)" }
 if ($settings.TRADING_MODE -eq 'live') {
-  if ($reconcile.body.execution.tradingMode -ne 'live' -or $reconcile.body.execution.status -ne 'NO_ENTRY' -or $reconcile.body.execution.accountId -ne '548108699') { throw 'RECONCILE_LIVE_CHECK_FAILED' }
+  if ($reconcile.body.execution.tradingMode -ne 'live' -or $reconcile.body.execution.status -notin @('NO_ENTRY','PROTECTED') -or $reconcile.body.execution.accountId -ne '548108699') { throw 'RECONCILE_LIVE_CHECK_FAILED' }
 } else {
   if ($reconcile.body.execution.tradingMode -ne 'dry_run' -or 'DRY_RUN_NO_EXCHANGE_MUTATIONS' -notin $reconcile.body.execution.reasonCodes) { throw "RECONCILE_DRY_RUN_CHECK_FAILED" }
 }
@@ -137,7 +139,7 @@ $evaluation = Invoke-FunctionCheck -RequestHeaders $evaluationHeaders -Body '{"k
 $evaluationId = [string]$evaluation.body.evaluationId
 if ($evaluationId -notmatch '^[a-f0-9]{64}$') { throw "EVALUATION_SMOKE_FAILED_HTTP_$($evaluation.httpStatus)" }
 if ($settings.TRADING_MODE -eq 'live') {
-  if ($evaluation.body.execution.tradingMode -ne 'live' -or $evaluation.body.execution.status -ne 'NO_ENTRY' -or $evaluation.body.execution.accountId -ne '548108699') { throw 'EVALUATION_LIVE_CHECK_FAILED' }
+  if ($evaluation.body.execution.tradingMode -ne 'live' -or $evaluation.body.execution.status -notin @('NO_ENTRY','ENTRY_SUBMITTED','ENTRY_FILLED','PROTECTED') -or $evaluation.body.execution.accountId -ne '548108699') { throw 'EVALUATION_LIVE_CHECK_FAILED' }
 } else {
   if ($evaluation.body.execution.tradingMode -ne 'dry_run' -or 'DRY_RUN_NO_EXCHANGE_MUTATIONS' -notin $evaluation.body.execution.reasonCodes) { throw 'EVALUATION_DRY_RUN_CHECK_FAILED' }
 }
@@ -169,8 +171,9 @@ $providerChecks = [ordered]@{
   employmentPresent = $null -ne $snapshotFields.employment.mapValue
 }
 # A provider error is never a correct evaluation. Before publication, NO_TRADE/WAITING_FOR_NFP is valid.
+$calendarRequired = $evaluation.body.strategyId -ne 'btc-strategy-fundamental-trigger-v1'
 $evaluationAccepted = $evaluation.httpStatus -eq 200 -and [string]$evaluation.body.status -ne 'ERROR' -and $providerErrors.Count -eq 0 -and
-  $providerChecks.quotePresent -and $providerChecks.fxPresent -and $providerChecks.calendarPresent
+  $providerChecks.quotePresent -and $providerChecks.fxPresent -and (-not $calendarRequired -or $providerChecks.calendarPresent)
 $verifiedAt = [DateTime]::UtcNow
 # A distinct file per region and run preserves earlier regional evidence.
 $reportStamp = $verifiedAt.ToString("yyyyMMdd'T'HHmmssfffffff'Z'", [Globalization.CultureInfo]::InvariantCulture)

@@ -1454,6 +1454,244 @@
             }
           ]
         },
+        "klines": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "minPrice": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "maxPrice": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "fromUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "toUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "candles": {
+                  "type": "array",
+                  "items": {}
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "minPrice",
+                "maxPrice",
+                "fromUtc",
+                "toUtc",
+                "count",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "priceRangeSinceValidFrom": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "minPrice": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "maxPrice": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "fromUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "toUtc": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "candles": {
+                  "type": "array",
+                  "items": {}
+                },
+                "provenance": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceUrl": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "observedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "publishedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "firstSeenAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "availableAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "fetchedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "revision": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "conflicts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "evidenceSha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "sourceUrl",
+                    "observedAt",
+                    "publishedAt",
+                    "firstSeenAt",
+                    "availableAt",
+                    "fetchedAt",
+                    "revision",
+                    "verified",
+                    "synthetic",
+                    "conflicts"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "minPrice",
+                "maxPrice",
+                "fromUtc",
+                "toUtc",
+                "count",
+                "provenance"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "providerErrors": {
           "type": "array",
           "items": {

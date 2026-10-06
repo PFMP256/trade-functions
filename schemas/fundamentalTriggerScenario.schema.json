@@ -1,0 +1,469 @@
+{
+  "$ref": "#/definitions/fundamentalTriggerScenario",
+  "definitions": {
+    "fundamentalTriggerScenario": {
+      "type": "object",
+      "properties": {
+        "strategyId": {
+          "type": "string",
+          "const": "btc-strategy-fundamental-trigger-v1"
+        },
+        "strategyVersion": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "scenarioId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validFromUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresAtUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "timezone": {
+          "type": "string",
+          "const": "America/Mexico_City"
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "LONG",
+            "SHORT"
+          ]
+        },
+        "entryZone": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": [
+                {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "max": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "minUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "maxUsdt": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              },
+              "required": [
+                "min",
+                "max"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "referencePriceUsdt": {
+          "type": "string",
+          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+        },
+        "projectedRange": {
+          "anyOf": [
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": [
+                {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "max": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              },
+              "required": [
+                "min",
+                "max"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "thesis": {
+          "type": "string"
+        },
+        "takeProfitUsd": {
+          "type": "string",
+          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+        },
+        "stopLossUsd": {
+          "type": "string",
+          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+        },
+        "takeProfitUsdt": {
+          "type": "string",
+          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+        },
+        "stopLossUsdt": {
+          "type": "string",
+          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+        },
+        "levels": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "LONG": {
+                  "type": "object",
+                  "properties": {
+                    "takeProfitUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "stopLossUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    }
+                  },
+                  "required": [
+                    "takeProfitUsd",
+                    "stopLossUsd"
+                  ],
+                  "additionalProperties": false
+                },
+                "SHORT": {
+                  "type": "object",
+                  "properties": {
+                    "takeProfitUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    },
+                    "stopLossUsd": {
+                      "type": "string",
+                      "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                    }
+                  },
+                  "required": [
+                    "takeProfitUsd",
+                    "stopLossUsd"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "takeProfitUsd": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                },
+                "stopLossUsd": {
+                  "type": "string",
+                  "pattern": "^-?\\d+(?:\\.\\d+)?$"
+                }
+              },
+              "required": [
+                "takeProfitUsd",
+                "stopLossUsd"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "demo": {
+          "type": "boolean",
+          "default": false
+        },
+        "validationStatus": {
+          "type": "string",
+          "enum": [
+            "UNVALIDATED",
+            "VALIDATED"
+          ]
+        },
+        "sourcesValidated": {
+          "type": "boolean"
+        },
+        "tradingMode": {
+          "type": "string",
+          "enum": [
+            "dry_run",
+            "testnet",
+            "live"
+          ]
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "testnet",
+            "mainnet"
+          ]
+        },
+        "allowNewEntries": {
+          "type": "boolean"
+        },
+        "closeOnScenarioExpiry": {
+          "type": "boolean",
+          "const": true
+        },
+        "instrument": {
+          "type": "object",
+          "properties": {
+            "exchange": {
+              "type": "string",
+              "const": "BYBIT"
+            },
+            "symbol": {
+              "type": "string",
+              "const": "BTCUSDT"
+            },
+            "marketType": {
+              "type": "string",
+              "const": "LINEAR_PERPETUAL"
+            },
+            "category": {
+              "type": "string",
+              "const": "linear"
+            },
+            "quoteCurrency": {
+              "type": "string",
+              "const": "USDT"
+            }
+          },
+          "required": [
+            "exchange",
+            "symbol",
+            "marketType",
+            "category",
+            "quoteCurrency"
+          ],
+          "additionalProperties": false
+        },
+        "freshness": {
+          "type": "object",
+          "properties": {
+            "quoteSeconds": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "fxSeconds": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "quoteSeconds",
+            "fxSeconds"
+          ],
+          "additionalProperties": false
+        },
+        "nextEvaluationSeconds": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "minRewardRisk": {
+          "type": "string",
+          "pattern": "^-?\\d+(?:\\.\\d+)?$"
+        },
+        "costs": {
+          "type": "object",
+          "properties": {
+            "entryFeeBps": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "exitFeeBps": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "exitSlippageBps": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "fundingToTpPerBtcUsdt": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "fundingToSlPerBtcUsdt": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entryFeeBps",
+            "exitFeeBps",
+            "exitSlippageBps",
+            "fundingToTpPerBtcUsdt",
+            "fundingToSlPerBtcUsdt",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "execution": {
+          "type": "object",
+          "properties": {
+            "targetPositionNotionalUsd": {
+              "type": "string",
+              "enum": [
+                "100",
+                "2000"
+              ],
+              "default": "2000"
+            },
+            "leverage": {
+              "type": "string",
+              "enum": [
+                "1",
+                "20"
+              ],
+              "default": "20"
+            },
+            "marginMode": {
+              "type": "string",
+              "enum": [
+                "ISOLATED",
+                "REGULAR"
+              ],
+              "default": "REGULAR"
+            },
+            "positionMode": {
+              "type": "string",
+              "const": "ONE_WAY"
+            },
+            "positionIdx": {
+              "type": "number",
+              "const": 0
+            },
+            "maxOpenPositionsPerSymbol": {
+              "type": "number",
+              "const": 1
+            },
+            "maxEntryIntentsPerScenario": {
+              "type": "number",
+              "const": 1
+            },
+            "entrySlippageBps": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "entryOrderType": {
+              "type": "string",
+              "const": "Limit"
+            },
+            "timeInForce": {
+              "type": "string",
+              "const": "IOC"
+            },
+            "tpslMode": {
+              "type": "string",
+              "const": "Full"
+            },
+            "tpOrderType": {
+              "type": "string",
+              "const": "Market"
+            },
+            "slOrderType": {
+              "type": "string",
+              "const": "Market"
+            },
+            "tpTriggerBy": {
+              "type": "string",
+              "const": "LastPrice"
+            },
+            "slTriggerBy": {
+              "type": "string",
+              "const": "LastPrice"
+            },
+            "monetaryPrecisionUsd": {
+              "type": "string",
+              "pattern": "^-?\\d+(?:\\.\\d+)?$"
+            },
+            "protectionTimeoutSeconds": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "positionMode",
+            "positionIdx",
+            "maxOpenPositionsPerSymbol",
+            "maxEntryIntentsPerScenario",
+            "entrySlippageBps",
+            "entryOrderType",
+            "timeInForce",
+            "tpslMode",
+            "tpOrderType",
+            "slOrderType",
+            "tpTriggerBy",
+            "slTriggerBy",
+            "monetaryPrecisionUsd",
+            "protectionTimeoutSeconds"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "strategyId",
+        "strategyVersion",
+        "scenarioId",
+        "validFromUtc",
+        "expiresAtUtc",
+        "timezone",
+        "direction",
+        "entryZone",
+        "validationStatus",
+        "sourcesValidated",
+        "tradingMode",
+        "environment",
+        "allowNewEntries",
+        "closeOnScenarioExpiry",
+        "instrument",
+        "freshness",
+        "nextEvaluationSeconds",
+        "minRewardRisk",
+        "costs",
+        "execution"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

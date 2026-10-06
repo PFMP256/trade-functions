@@ -12,10 +12,11 @@ function main(): void {
     const allowedFlags = [
       '--project', '--region', '--bls-contact', '--credential-binding',
       '--reconcile-queue', '--trading-mode', '--bybit-environment',
-      '--allow-new-entries', '--bybit-account-id', '--dedicated-account-confirmed'
+      '--allow-new-entries', '--bybit-account-id', '--dedicated-account-confirmed',
+      '--function-name', '--scenario'
     ];
     if (!flag || !allowedFlags.includes(flag) || !value || value.startsWith('--') || flags.has(flag)) {
-      throw new Error('Usage: --project PROJECT_ID [--region southamerica-east1] [--bls-contact EMAIL_OR_HTTPS_URL] [--credential-binding none|mainnet|testnet] [--reconcile-queue QUEUE_NAME] [--trading-mode live|dry_run|testnet] [--bybit-environment mainnet|testnet] [--allow-new-entries true|false] [--bybit-account-id ACCOUNT_ID] [--dedicated-account-confirmed true|false]');
+      throw new Error('Usage: --project PROJECT_ID [--region southamerica-east1] [--bls-contact EMAIL_OR_HTTPS_URL] [--credential-binding none|mainnet|testnet] [--reconcile-queue QUEUE_NAME] [--trading-mode live|dry_run|testnet] [--bybit-environment mainnet|testnet] [--allow-new-entries true|false] [--bybit-account-id ACCOUNT_ID] [--dedicated-account-confirmed true|false] [--function-name FUNCTION_NAME] [--scenario SCENARIO_PATH]');
     }
     flags.set(flag, value);
   }
@@ -62,6 +63,9 @@ function main(): void {
     return absolute;
   };
 
+  const functionName = flags.get('--function-name') ?? 'runBtcNfpEtfBybitV1';
+  const scenarioPath = flags.get('--scenario') ?? 'scenarios/btc-nfp-public-2026-10-02.demo.json';
+
   // Validate the complete allowlist before creating a staging directory.
   const directoryAllowlist = ['dist/apps/functions/src', 'dist/packages', 'dist/scenarios'];
   const fileAllowlist = [
@@ -69,6 +73,7 @@ function main(): void {
     'scenarios/btc-nfp-public-2026-10-02.demo.json',
     'config/source-registry.json',
   ];
+  if (!fileAllowlist.includes(scenarioPath)) fileAllowlist.push(scenarioPath);
   directoryAllowlist.forEach(sourceDirectory);
   [...fileAllowlist, 'package.json', 'package-lock.json', 'firestore.rules', 'firestore.indexes.json', 'dist/apps/functions/src/index.js'].forEach(sourceFile);
   const localDependencies = sourceDirectory('node_modules');
@@ -111,7 +116,6 @@ function main(): void {
   json(join(functionsSource, 'package-lock.json'), lockJson);
   for (const path of ['firestore.rules', 'firestore.indexes.json']) copy(sourceFile(path), join(staging, path));
 
-  const functionName = 'runBtcNfpEtfBybitV1';
   // Region-specific codebases let a replacement be verified before explicitly
   // retiring its predecessor. Firebase must not auto-delete the old region.
   const codebase = `btc-strategy-${region}`;
@@ -124,7 +128,7 @@ function main(): void {
     PUBLIC_DATA_ENABLED: 'true',
     DEDICATED_ACCOUNT_CONFIRMED: dedicatedAccountConfirmed,
     APP_REGION: region,
-    SCENARIO_CONFIG_PATH: 'scenarios/btc-nfp-public-2026-10-02.demo.json',
+    SCENARIO_CONFIG_PATH: scenarioPath,
     RUNTIME_SERVICE_ACCOUNT: `btc-runtime@${projectId}.iam.gserviceaccount.com`,
     SCHEDULER_SERVICE_ACCOUNT: `btc-scheduler@${projectId}.iam.gserviceaccount.com`,
     RUN_FUNCTION_URL: runUrl,

@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js';
-import { PUBLIC_NFP_STRATEGY_ID, type AnyScenarioConfig, type EventCalendar, type EmploymentReport, type NumericDatum } from '../../../packages/shared/src';
+import { PUBLIC_NFP_STRATEGY_ID, FUNDAMENTAL_TRIGGER_STRATEGY_ID, type AnyScenarioConfig, type EventCalendar, type EmploymentReport, type NumericDatum } from '../../../packages/shared/src';
 import { BlsPublicProvider, blsUserAgent } from '../../../packages/data-providers/src/bls-public';
 import { KrakenFxProvider } from '../../../packages/data-providers/src/kraken-fx';
 import { createUsEquitiesCalendar2026 } from '../../../packages/data-providers/src/calendar';
@@ -10,6 +10,19 @@ import { PublicDataStore } from './public-data-store';
 export interface PublicFeedOptions { blsContact?: string }
 
 export async function fetchPublicFeeds(config:AnyScenarioConfig,store:PublicDataStore,ingested:StructuredFeed|undefined,options:PublicFeedOptions={}):Promise<{structured:StructuredFeed;errors:string[]}> {
+  if (config.strategyId === FUNDAMENTAL_TRIGGER_STRATEGY_ID) {
+    const structured = emptyStructuredFeed();
+    const errors: string[] = [];
+    const fx = new KrakenFxProvider();
+    const key = `${config.environment}:usdPerUsdt`;
+    try {
+      const response = await fx.getUsdPerUsdt(await store.previous<NumericDatum>(key));
+      structured.usdPerUsdt = await store.record(key, response.data, response.evidence);
+    } catch (e) {
+      errors.push(e instanceof ProviderError ? e.code : 'KRAKEN_FX_PROVIDER_FAILURE');
+    }
+    return { structured, errors };
+  }
   // The observed-NFP strategy has an independent data contract. Even if a caller accidentally passes
   // a legacy manual feed, its values and conflicts cannot affect this strategy's public observations.
   const publicOnly=config.strategyId===PUBLIC_NFP_STRATEGY_ID;

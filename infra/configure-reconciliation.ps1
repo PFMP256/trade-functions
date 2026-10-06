@@ -1,6 +1,9 @@
 param(
   [Parameter(Mandatory = $true)][ValidatePattern('^[a-z][a-z0-9-]{4,28}[a-z0-9]$')][string]$ProjectId,
   [ValidatePattern('^[a-z]+(?:-[a-z]+)*[0-9]+$')][string]$Region = 'southamerica-east1',
+  [string]$FunctionName = 'runBtcNfpEtfBybitV1',
+  [string]$RecoveryJobName = 'btc-nfp-etf-recovery',
+  [string]$RecoverySchedule = '* * * * *',
   [switch]$Apply
 )
 # Idempotent reconciliation infrastructure. Does not change the evaluation job, function configuration,
@@ -8,9 +11,9 @@ param(
 # Windows PowerShell 5.1 compatible; no dotenv files are read.
 $ErrorActionPreference = 'Stop'
 if (-not $Apply) { throw 'Review this script first. -Apply configures the queue, IAM and an ACTIVE recovery job every minute.' }
-$functionName = 'runBtcNfpEtfBybitV1'
+$functionName = $FunctionName
 $queueName = 'btc-reconcile'
-$jobName = 'btc-nfp-etf-recovery'
+$jobName = $RecoveryJobName
 $runtimeSa = "btc-runtime@$ProjectId.iam.gserviceaccount.com"
 $schedulerSa = "btc-scheduler@$ProjectId.iam.gserviceaccount.com"
 $runUrl = "https://$Region-$ProjectId.cloudfunctions.net/$functionName"
@@ -95,7 +98,7 @@ if ($queue.state -eq 'PAUSED') {
 $bodyPath = Join-Path ([IO.Path]::GetTempPath()) ('btc-reconcile-body-' + [guid]::NewGuid().ToString('N') + '.json')
 [IO.File]::WriteAllText($bodyPath, $requestBody, (New-Object Text.UTF8Encoding $false))
 try {
-  $common = @("--project=$ProjectId","--location=$Region",'--schedule=* * * * *','--time-zone=UTC',"--uri=$runUrl",'--http-method=POST',
+  $common = @("--project=$ProjectId","--location=$Region","--schedule=$RecoverySchedule",'--time-zone=UTC',"--uri=$runUrl",'--http-method=POST',
     "--message-body-from-file=$bodyPath","--oidc-service-account-email=$schedulerSa","--oidc-token-audience=$runUrl",
     '--attempt-deadline=180s','--max-retry-attempts=5','--min-backoff=20s','--max-backoff=60s','--format=none')
   $existing = @(Invoke-Gcloud @('scheduler','jobs','list',"--project=$ProjectId","--location=$Region",'--format=value(name)') | Where-Object { ($_ -split '/')[-1] -eq $jobName })
@@ -133,7 +136,7 @@ if (-not (Test-Binding $projectPolicy 'roles/cloudtasks.serviceAgent' "serviceAc
 if (-not (Test-Binding $projectPolicy 'roles/cloudscheduler.serviceAgent' "serviceAccount:service-$projectNumber@gcp-sa-cloudscheduler.iam.gserviceaccount.com")) { throw 'CLOUD_SCHEDULER_SERVICE_AGENT_ROLE_MISSING' }
 if (-not (Test-Binding $runPolicy 'roles/run.invoker' "serviceAccount:$schedulerSa")) { throw 'RUN_INVOKER_VERIFICATION_FAILED' }
 $effectiveBody = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String([string]$job.httpTarget.body))
-if ($job.state -ne 'ENABLED' -or $job.schedule -ne '* * * * *' -or $job.timeZone -ne 'UTC' -or $job.httpTarget.uri -ne $runUrl -or
+if ($job.state -ne 'ENABLED' -or $job.schedule -ne $RecoverySchedule -or $job.timeZone -ne 'UTC' -or $job.httpTarget.uri -ne $runUrl -or
     $job.httpTarget.httpMethod -ne 'POST' -or $effectiveBody -ne $requestBody -or
     $job.httpTarget.oidcToken.serviceAccountEmail -ne $schedulerSa -or $job.httpTarget.oidcToken.audience -ne $runUrl) { throw 'RECOVERY_JOB_VERIFICATION_FAILED' }
 [ordered]@{

@@ -16,6 +16,20 @@ export interface OrchestratorDeps {
   now(): Date;
 }
 export function executionRequest(evaluation: Evaluation, config: AnyScenarioConfig, snapshot: Snapshot): ExecutionRequest {
+  let levels: { takeProfitUsd: string; stopLossUsd: string } | undefined;
+  if (evaluation.decision !== 'NO_TRADE') {
+    if ('levels' in config && config.levels) {
+      const lvls = config.levels as Record<string, any>;
+      if (evaluation.decision in lvls && lvls[evaluation.decision]) {
+        levels = lvls[evaluation.decision];
+      } else if ('takeProfitUsd' in lvls && 'stopLossUsd' in lvls) {
+        levels = { takeProfitUsd: lvls.takeProfitUsd, stopLossUsd: lvls.stopLossUsd };
+      }
+    }
+    if (!levels && 'takeProfitUsd' in config && 'stopLossUsd' in config && config.takeProfitUsd && config.stopLossUsd) {
+      levels = { takeProfitUsd: config.takeProfitUsd as string, stopLossUsd: config.stopLossUsd as string };
+    }
+  }
   return {
     decision:evaluation.decision, scenarioId:config.scenarioId, evaluationId:evaluation.evaluationId,
     configHash:evaluation.configHash, validUntilUtc:evaluation.validUntilUtc, expiresAtUtc:config.expiresAtUtc,
@@ -23,7 +37,7 @@ export function executionRequest(evaluation: Evaluation, config: AnyScenarioConf
     snapshotSynthetic:snapshot.synthetic || evaluation.sources.some(s => s.synthetic), environment:config.environment,
     closeOnScenarioExpiry:config.closeOnScenarioExpiry,
     ...(snapshot.usdPerUsdt ? {usdPerUsdt:{value:snapshot.usdPerUsdt.value,observedAtUtc:snapshot.usdPerUsdt.provenance.observedAt,verified:snapshot.usdPerUsdt.provenance.verified}} : {}),
-    ...(evaluation.decision !== 'NO_TRADE' ? {levels:config.levels[evaluation.decision]} : {}),
+    ...(levels ? {levels} : {}),
     costs:config.costs, minRewardRisk:config.minRewardRisk,
   };
 }

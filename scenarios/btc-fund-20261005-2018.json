@@ -1,0 +1,78 @@
+{
+  "strategyId": "btc-strategy-fundamental-trigger-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-fund-20261005-2018",
+  "validFromUtc": "2026-10-05T20:18:00Z",
+  "expiresAtUtc": "2026-10-06T20:18:00Z",
+  "timezone": "America/Mexico_City",
+  "direction": "LONG",
+  "referencePriceUsdt": "85713.10",
+  "entryZone": [
+    "85455.96",
+    "85970.24"
+  ],
+  "takeProfitUsd": "87800.00",
+  "stopLossUsd": "84800.00",
+  "levels": {
+    "LONG": {
+      "takeProfitUsd": "87800.00",
+      "stopLossUsd": "84800.00"
+    },
+    "SHORT": {
+      "takeProfitUsd": "87800.00",
+      "stopLossUsd": "84800.00"
+    }
+  },
+  "projectedRange": [
+    "84500.00",
+    "88000.00"
+  ],
+  "thesis": "Soporte institucional consolidado con compras corporativas de Strategy a 85.8k y descompresión de tasas tras proyectarse una pausa de la Fed en octubre, manteniendo apetito de riesgo en entorno de Greed (70).",
+  "demo": false,
+  "validationStatus": "VALIDATED",
+  "sourcesValidated": true,
+  "tradingMode": "dry_run",
+  "environment": "mainnet",
+  "allowNewEntries": true,
+  "closeOnScenarioExpiry": true,
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "freshness": {
+    "quoteSeconds": 60,
+    "fxSeconds": 60
+  },
+  "nextEvaluationSeconds": 60,
+  "minRewardRisk": "1.5",
+  "costs": {
+    "entryFeeBps": "0",
+    "exitFeeBps": "0",
+    "exitSlippageBps": "0",
+    "fundingToTpPerBtcUsdt": "0",
+    "fundingToSlPerBtcUsdt": "0",
+    "description": "Supuestos de costes de escenario para evaluación de relación beneficio/riesgo."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000",
+    "leverage": "20",
+    "marginMode": "REGULAR",
+    "positionMode": "ONE_WAY",
+    "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1,
+    "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10",
+    "entryOrderType": "Limit",
+    "timeInForce": "IOC",
+    "tpslMode": "Full",
+    "tpOrderType": "Market",
+    "slOrderType": "Market",
+    "tpTriggerBy": "LastPrice",
+    "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01",
+    "protectionTimeoutSeconds": 15
+  }
+}

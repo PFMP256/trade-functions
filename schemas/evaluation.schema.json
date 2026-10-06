@@ -8,7 +8,8 @@
           "type": "string",
           "enum": [
             "btc-strategy-nfp-etf-v1",
-            "btc-strategy-nfp-observed-v1"
+            "btc-strategy-nfp-observed-v1",
+            "btc-strategy-fundamental-trigger-v1"
           ]
         },
         "strategyVersion": {

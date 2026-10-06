@@ -1,4 +1,4 @@
-import { onRequest } from 'firebase-functions/v2/https';
+import { onRequest, type Request, type Response } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
 import { z } from 'zod';
 import { authenticate, scheduledTime } from './auth';
@@ -34,7 +34,7 @@ async function auth(req: Parameters<typeof authenticate>[0], audience:string|und
   if (process.env.FUNCTIONS_EMULATOR === 'true' && process.env.GCLOUD_PROJECT?.startsWith('demo-') && req.headers['x-emulator-auth'] === 'local-development') return {email:'emulator@local.invalid'};
   return authenticate(req,audience ?? '',allowed);
 }
-export const runBtcNfpEtfBybitV1 = onRequest({...baseOptions,secrets:credentialBindings},async (req,res) => {
+const handleTradingRequest = async (req: Request, res: Response) => {
   if (req.method !== 'POST') { res.status(405).json({error:'METHOD_NOT_ALLOWED'}); return; }
   try { await auth(req,process.env.RUN_FUNCTION_URL,emails(process.env.SCHEDULER_SERVICE_ACCOUNT)); }
   catch { res.status(401).json({error:'UNAUTHENTICATED'}); return; }
@@ -67,7 +67,10 @@ export const runBtcNfpEtfBybitV1 = onRequest({...baseOptions,secrets:credentialB
     try { const audit=new AuditStore(firestore()); error.snapshot={...error.snapshot,...await audit.snapshot(snapshot)}; await audit.save(error,scheduledAtUtc); } catch { /* HTTP 503 stays explicit if audit storage is unavailable. */ }
     res.set('Cache-Control','no-store').status(503).json(error);
   }
-});
+};
+
+export const runBtcNfpEtfBybitV1 = onRequest({...baseOptions,secrets:credentialBindings}, handleTradingRequest);
+export const runBtcFundamentalSignalV1 = onRequest({...baseOptions,secrets:credentialBindings}, handleTradingRequest);
 
 export const ingestBtcNfpEtfDataV1 = onRequest({...baseOptions,timeoutSeconds:60},async (req,res) => {
   if (req.method !== 'POST') { res.status(405).json({error:'METHOD_NOT_ALLOWED'}); return; }

@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import { z } from 'zod';
-import { environmentSchema, positiveDecimalSchema, provenanceSchema, quoteSchema, type Provenance, type Quote } from '../../shared/src';
+import { environmentSchema, positiveDecimalSchema, provenanceSchema, quoteSchema, klineRangeSchema, type KlineRange, type Provenance, type Quote } from '../../shared/src';
 import { ProviderError, PublicJsonHttpClient, type PublicHttpOptions } from './http';
 
 export const BYBIT_PUBLIC_ORIGINS = {
@@ -14,7 +14,10 @@ export const orderBookSchema = z.object({
 }).strict();
 export type OrderBook = z.infer<typeof orderBookSchema>;
 export interface MarketView { quote: Quote; orderBook: OrderBook }
-export interface QuoteProvider { getQuote(options?: { fresh?: boolean }): Promise<Quote> }
+export interface QuoteProvider {
+  getQuote(options?: { fresh?: boolean }): Promise<Quote>;
+  getKlines?(validFromUtc: string, toUtc?: string): Promise<KlineRange>;
+}
 export interface OrderBookProvider { getOrderBook(options?: { fresh?: boolean }): Promise<OrderBook> }
 const envelopeSchema = z.object({ retCode: z.number().int(), time: z.number().int().positive(), result: z.unknown() });
 const tickerSchema = z.object({ category: z.literal('linear'), list: z.array(z.object({
@@ -93,6 +96,75 @@ export class BybitMarketDataProvider implements QuoteProvider, OrderBookProvider
     };
     this.cache = { fetchedAt: Date.parse(fetchedAt), value };
     return structuredClone(value);
+  }
+
+  async getKlines(validFromUtc: string, toUtc?: string): Promise<KlineRange> {
+    const origin = BYBIT_PUBLIC_ORIGINS[this.environment];
+    const startMs = Date.parse(validFromUtc);
+    const endMs = toUtc ? Date.parse(toUtc) : this.now().getTime();
+    if (!Number.isFinite(startMs) || !Number.isFinite(endMs)) {
+      throw new ProviderError('BYBIT_MARKET_SCHEMA_CHANGED');
+    }
+    const fetchedAt = this.now().toISOString();
+    const validCandles: string[][] = [];
+    const seenTimes = new Set<string>();
+
+    let currentEnd = endMs;
+    while (currentEnd >= startMs) {
+      const klineUrl = `${origin}/v5/market/kline?category=linear&symbol=BTCUSDT&interval=1&start=${startMs}&end=${currentEnd}&limit=1000`;
+      const response = await this.http.get(klineUrl);
+      const envelope = envelopeSchema.safeParse(response);
+      if (!envelope.success || envelope.data.retCode !== 0) throw new ProviderError('BYBIT_MARKET_RETCODE');
+      const resultObj = envelope.data.result as { list?: string[][] } | undefined;
+      const list = resultObj?.list ?? [];
+      if (!Array.isArray(list)) throw new ProviderError('BYBIT_MARKET_SCHEMA_CHANGED');
+      if (list.length === 0) break;
+
+      let oldestTimeInPage = Infinity;
+      for (const c of list) {
+        const t = Number(c[0]);
+        if (Number.isFinite(t) && t >= startMs && t <= endMs && !seenTimes.has(c[0]!)) {
+          seenTimes.add(c[0]!);
+          validCandles.push(c);
+        }
+        if (Number.isFinite(t) && t < oldestTimeInPage) {
+          oldestTimeInPage = t;
+        }
+      }
+
+      if (list.length < 1000 || oldestTimeInPage <= startMs || !Number.isFinite(oldestTimeInPage)) {
+        break;
+      }
+      currentEnd = oldestTimeInPage - 1;
+    }
+
+    let minPrice: Decimal;
+    let maxPrice: Decimal;
+    if (validCandles.length > 0) {
+      minPrice = new Decimal(validCandles[0]![3]!);
+      maxPrice = new Decimal(validCandles[0]![2]!);
+      for (const c of validCandles) {
+        const high = new Decimal(c[2]!);
+        const low = new Decimal(c[3]!);
+        if (high.gt(maxPrice)) maxPrice = high;
+        if (low.lt(minPrice)) minPrice = low;
+      }
+    } else {
+      const quote = await this.getQuote();
+      minPrice = new Decimal(quote.bid);
+      maxPrice = new Decimal(quote.ask);
+    }
+    const revision = `${validCandles.length}:${minPrice.toFixed()}:${maxPrice.toFixed()}`;
+    const provenanceUrl = `${origin}/v5/market/kline?category=linear&symbol=BTCUSDT&interval=1&start=${startMs}&limit=1000`;
+    const provenance = this.provenance(provenanceUrl, validCandles.length > 0 ? Number(validCandles[0]![0]) : Date.parse(fetchedAt), revision, fetchedAt);
+    return klineRangeSchema.parse({
+      minPrice: minPrice.toFixed(),
+      maxPrice: maxPrice.toFixed(),
+      fromUtc: validFromUtc,
+      toUtc: new Date(endMs).toISOString(),
+      count: validCandles.length,
+      provenance,
+    });
   }
 
   private provenance(url: string, observedMs: number, revision: string, fetchedAt: string): Provenance {

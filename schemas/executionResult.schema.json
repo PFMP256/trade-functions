@@ -58,7 +58,10 @@
         },
         "leverage": {
           "type": "string",
-          "const": "1"
+          "enum": [
+            "1",
+            "20"
+          ]
         },
         "orderLinkId": {
           "type": "string",

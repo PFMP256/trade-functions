@@ -123,10 +123,25 @@ describe('authenticated structured ingestion validation', () => {
 });
 
 function response(value: unknown, status = 200): Response { return new Response(JSON.stringify(value), { status }); }
-function marketFetcher(overrides: { book?: object; ticker?: object; retCode?: number } = {}) {
+function marketFetcher(overrides: { book?: object; ticker?: object; klines?: unknown[]; retCode?: number } = {}) {
   return vi.fn(async (url: string | URL | Request): Promise<Response> => {
     const time = Date.parse(NOW) - 100;
-    return response({ retCode: overrides.retCode ?? 0, time, result: String(url).includes('orderbook') ? {
+    const urlStr = String(url);
+    if (urlStr.includes('kline')) {
+      return response({
+        retCode: overrides.retCode ?? 0,
+        time,
+        result: {
+          symbol: 'BTCUSDT',
+          category: 'linear',
+          list: overrides.klines ?? [
+            ['1790945340000', '85700', '85850', '85650', '85750', '10', '857000'],
+            ['1790945280000', '85600', '85720', '85580', '85700', '12', '1027200'],
+          ],
+        },
+      });
+    }
+    return response({ retCode: overrides.retCode ?? 0, time, result: urlStr.includes('orderbook') ? {
       s: 'BTCUSDT', b: [['84000', '1']], a: [['84001', '2']], ts: time, cts: time - 100, u: 4, seq: 9, ...overrides.book,
     } : { category: 'linear', list: [{ symbol: 'BTCUSDT', lastPrice: '84000.5', markPrice: '84002' }], ...overrides.ticker } });
   });
@@ -141,6 +156,49 @@ describe('Bybit market adapter via mocked HTTP integration', () => {
     expect(market.quote).toMatchObject({ bid: '84000', ask: '84001', last: '84000.5', mark: '84002', environment: 'testnet' });
     expect(market.orderBook.provenance.observedAt).toBe('2026-10-02T12:49:59.800Z');
     expect(market.quote.provenance.publishedAt).toBeNull();
+  });
+  it('fetches and aggregates klines with min and max prices', async () => {
+    const fetcher = marketFetcher({
+      klines: [
+        ['1790945340000', '85700', '85900', '85600', '85750'],
+        ['1790945280000', '85500', '85700', '85450', '85600'],
+      ],
+    });
+    const provider = new BybitMarketDataProvider('testnet', { fetch: fetcher as typeof fetch, now: () => new Date(NOW) });
+    const klines = await provider.getKlines('2026-10-02T12:00:00.000Z', '2026-10-02T12:50:00.000Z');
+    expect(klines.minPrice).toBe('85450');
+    expect(klines.maxPrice).toBe('85900');
+    expect(klines.count).toBe(2);
+  });
+  it('paginates klines backwards across multiple pages for long windows', async () => {
+    const endMs = 1790945400000;
+    const fetcher = vi.fn(async (url: string | URL | Request): Promise<Response> => {
+      const urlStr = String(url);
+      const time = Date.parse(NOW) - 100;
+      if (urlStr.includes('kline')) {
+        if (urlStr.includes(`end=${endMs}`)) {
+          // Page 1: 1000 candles from endMs backwards
+          const candles = Array.from({ length: 1000 }, (_, i) => [
+            String(endMs - i * 60000), '85500', '85800', '85200', '85600',
+          ]);
+          return response({ retCode: 0, time, result: { list: candles } });
+        } else {
+          // Page 2: remaining 50 candles
+          const oldestP1 = endMs - 999 * 60000;
+          const candles = Array.from({ length: 50 }, (_, i) => [
+            String(oldestP1 - 60000 - i * 60000), '85400', '85950', '85100', '85500',
+          ]);
+          return response({ retCode: 0, time, result: { list: candles } });
+        }
+      }
+      return marketFetcher()(url);
+    });
+    const provider = new BybitMarketDataProvider('testnet', { fetch: fetcher as typeof fetch, now: () => new Date(NOW) });
+    const klines = await provider.getKlines('2026-10-01T12:00:00.000Z', new Date(endMs).toISOString());
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(klines.minPrice).toBe('85100');
+    expect(klines.maxPrice).toBe('85950');
+    expect(klines.count).toBe(1050);
   });
   it('does not rejuvenate cache observation/fetch timestamps or let callers mutate it', async () => {
     let now = new Date(NOW); const fetcher = marketFetcher();
