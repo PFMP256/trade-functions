@@ -1,0 +1,80 @@
+{
+  "strategyId": "btc-strategy-fundamental-trigger-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-fund-20261007-1923",
+  "validFromUtc": "2026-10-07T19:23:00Z",
+  "expiresAtUtc": "2026-10-08T19:23:00Z",
+  "timezone": "America/Mexico_City",
+  "direction": "SHORT",
+  "referencePriceUsdt": "83451.30",
+  "entryZone": [
+    "83200.95",
+    "83701.65"
+  ],
+  "takeProfitUsd": "80500.00",
+  "stopLossUsd": "84500.00",
+  "takeProfitUsdt": "80500.00",
+  "stopLossUsdt": "84500.00",
+  "levels": {
+    "LONG": {
+      "takeProfitUsd": "80500.00",
+      "stopLossUsd": "84500.00"
+    },
+    "SHORT": {
+      "takeProfitUsd": "80500.00",
+      "stopLossUsd": "84500.00"
+    }
+  },
+  "projectedRange": [
+    "80200.00",
+    "84200.00"
+  ],
+  "thesis": "Minutas restrictivas de la Fed publicadas hoy y rendimientos del Tesoro a 10 años en 5.29%-5.35% superan el influjo neto de ETFs (+119M USD) y extienden la presión bajista tras la cascada de 600M USD en liquidaciones largas.",
+  "demo": false,
+  "validationStatus": "VALIDATED",
+  "sourcesValidated": true,
+  "tradingMode": "dry_run",
+  "environment": "mainnet",
+  "allowNewEntries": true,
+  "closeOnScenarioExpiry": true,
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "freshness": {
+    "quoteSeconds": 60,
+    "fxSeconds": 60
+  },
+  "nextEvaluationSeconds": 60,
+  "minRewardRisk": "1.5",
+  "costs": {
+    "entryFeeBps": "0",
+    "exitFeeBps": "0",
+    "exitSlippageBps": "0",
+    "fundingToTpPerBtcUsdt": "0",
+    "fundingToSlPerBtcUsdt": "0",
+    "description": "Supuestos de costes de escenario para evaluación de relación beneficio/riesgo."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000",
+    "leverage": "20",
+    "marginMode": "REGULAR",
+    "positionMode": "ONE_WAY",
+    "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1,
+    "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10",
+    "entryOrderType": "Limit",
+    "timeInForce": "IOC",
+    "tpslMode": "Full",
+    "tpOrderType": "Market",
+    "slOrderType": "Market",
+    "tpTriggerBy": "LastPrice",
+    "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01",
+    "protectionTimeoutSeconds": 15
+  }
+}
