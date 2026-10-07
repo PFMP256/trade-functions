@@ -1,0 +1,80 @@
+{
+  "strategyId": "btc-strategy-fundamental-trigger-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-fund-20261007-0618",
+  "validFromUtc": "2026-10-07T06:18:00Z",
+  "expiresAtUtc": "2026-10-08T06:18:00Z",
+  "timezone": "America/Mexico_City",
+  "direction": "LONG",
+  "referencePriceUsdt": "84223.70",
+  "entryZone": [
+    "83971.03",
+    "84476.37"
+  ],
+  "takeProfitUsd": "86500.00",
+  "stopLossUsd": "83200.00",
+  "takeProfitUsdt": "86500.00",
+  "stopLossUsdt": "83200.00",
+  "levels": {
+    "LONG": {
+      "takeProfitUsd": "86500.00",
+      "stopLossUsd": "83200.00"
+    },
+    "SHORT": {
+      "takeProfitUsd": "86500.00",
+      "stopLossUsd": "83200.00"
+    }
+  },
+  "projectedRange": [
+    "83200.00",
+    "86800.00"
+  ],
+  "thesis": "Rebote institucional tras la absorción del shock geopolítico y purga de derivados en $83.5k USDT, respaldado por flujos netos positivos en ETFs (+119M USD), acumulación de Strategy Inc. (848k BTC) y avance desregulatorio federal de la CFTC y FinCEN.",
+  "demo": false,
+  "validationStatus": "VALIDATED",
+  "sourcesValidated": true,
+  "tradingMode": "dry_run",
+  "environment": "mainnet",
+  "allowNewEntries": true,
+  "closeOnScenarioExpiry": true,
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "freshness": {
+    "quoteSeconds": 60,
+    "fxSeconds": 60
+  },
+  "nextEvaluationSeconds": 60,
+  "minRewardRisk": "1.5",
+  "costs": {
+    "entryFeeBps": "0",
+    "exitFeeBps": "0",
+    "exitSlippageBps": "0",
+    "fundingToTpPerBtcUsdt": "0",
+    "fundingToSlPerBtcUsdt": "0",
+    "description": "Supuestos de costes de escenario para evaluación de relación beneficio/riesgo."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000",
+    "leverage": "20",
+    "marginMode": "REGULAR",
+    "positionMode": "ONE_WAY",
+    "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1,
+    "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10",
+    "entryOrderType": "Limit",
+    "timeInForce": "IOC",
+    "tpslMode": "Full",
+    "tpOrderType": "Market",
+    "slOrderType": "Market",
+    "tpTriggerBy": "LastPrice",
+    "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01",
+    "protectionTimeoutSeconds": 15
+  }
+}
