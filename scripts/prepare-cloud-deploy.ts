@@ -1,6 +1,7 @@
 import { copyFileSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs';
 import { isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { blsUserAgent } from '../packages/data-providers/src/bls-public';
+import { anyScenarioConfigSchema } from '../packages/shared/src';
 
 /** Creates an isolated Firebase upload source. Never reads the workspace .env or deploys resources. */
 function main(): void {
@@ -76,6 +77,8 @@ function main(): void {
   if (!fileAllowlist.includes(scenarioPath)) fileAllowlist.push(scenarioPath);
   directoryAllowlist.forEach(sourceDirectory);
   [...fileAllowlist, 'package.json', 'package-lock.json', 'firestore.rules', 'firestore.indexes.json', 'dist/apps/functions/src/index.js'].forEach(sourceFile);
+  const scenarioRaw = JSON.parse(readFileSync(sourceFile(scenarioPath), 'utf8'));
+  anyScenarioConfigSchema.parse(scenarioRaw);
   const localDependencies = sourceDirectory('node_modules');
   const packageJson = JSON.parse(readFileSync(sourceFile('package.json'), 'utf8')) as Record<string, unknown>;
   const lockJson = JSON.parse(readFileSync(sourceFile('package-lock.json'), 'utf8')) as Record<string, unknown>;

@@ -232,8 +232,8 @@ export const fundamentalTriggerScenarioConfigSchema = z.object({
     ? [new Decimal(v.entryZone[0]), new Decimal(v.entryZone[1])]
     : [new Decimal(v.entryZone.min ?? v.entryZone.minUsdt!), new Decimal(v.entryZone.max ?? v.entryZone.maxUsdt!)];
   if (minZone.gt(maxZone)) ctx.addIssue({code:'custom',message:'Entry zone min must be <= max'});
-  const tp = v.takeProfitUsd ?? v.takeProfitUsdt ?? (v.levels && ('takeProfitUsd' in v.levels ? v.levels.takeProfitUsd : v.levels[v.direction]?.takeProfitUsd));
-  const sl = v.stopLossUsd ?? v.stopLossUsdt ?? (v.levels && ('stopLossUsd' in v.levels ? v.levels.stopLossUsd : v.levels[v.direction]?.stopLossUsd));
+  const tp = v.takeProfitUsdt ?? v.takeProfitUsd ?? (v.levels && ('takeProfitUsd' in v.levels ? v.levels.takeProfitUsd : v.levels[v.direction]?.takeProfitUsd));
+  const sl = v.stopLossUsdt ?? v.stopLossUsd ?? (v.levels && ('stopLossUsd' in v.levels ? v.levels.stopLossUsd : v.levels[v.direction]?.stopLossUsd));
   if (!tp || !sl) {
     ctx.addIssue({code:'custom',message:'takeProfit and stopLoss must be provided'});
   } else {
@@ -245,6 +245,23 @@ export const fundamentalTriggerScenarioConfigSchema = z.object({
     } else {
       if (tpDec.gte(minZone)) ctx.addIssue({code:'custom',message:'SHORT takeProfit must be below lower entry zone boundary'});
       if (slDec.lte(maxZone)) ctx.addIssue({code:'custom',message:'SHORT stopLoss must be above upper entry zone boundary'});
+    }
+    const worstEntry = v.direction === 'LONG' ? maxZone : minZone;
+    const isLong = v.direction === 'LONG';
+    const grossProfit = isLong ? tpDec.minus(worstEntry) : worstEntry.minus(tpDec);
+    const grossLoss = isLong ? worstEntry.minus(slDec) : slDec.minus(worstEntry);
+    const entryFee = worstEntry.mul(v.costs.entryFeeBps).div(10000);
+    const exitBps = new Decimal(v.costs.exitFeeBps).plus(v.costs.exitSlippageBps);
+    const costTp = entryFee.plus(tpDec.mul(exitBps).div(10000)).plus(v.costs.fundingToTpPerBtcUsdt);
+    const costSl = entryFee.plus(slDec.mul(exitBps).div(10000)).plus(v.costs.fundingToSlPerBtcUsdt);
+    const netProfit = grossProfit.minus(costTp);
+    const netLoss = grossLoss.plus(costSl);
+    const rr = netLoss.gt(0) ? netProfit.div(netLoss) : null;
+    if (!netProfit.gt(0) || !netLoss.gt(0) || !rr || rr.lt(new Decimal('1.5'))) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `Net reward-risk ratio at worst entry zone boundary (${rr ? rr.toFixed(4) : 'null'}) must be >= 1.5`,
+      });
     }
   }
 });

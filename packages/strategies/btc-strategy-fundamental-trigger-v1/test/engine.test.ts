@@ -253,4 +253,75 @@ describe('btc-strategy-fundamental-trigger-v1 engine', () => {
     const badSl = { ...config, stopLossUsd: '85600.00', levels: undefined };
     expect(() => fundamentalTriggerScenarioConfigSchema.parse(badSl)).toThrow('LONG stopLoss must be below lower entry zone boundary');
   });
+
+  it('rejects scenario config where net RR at worst entry zone boundary is below 1.5', async () => {
+    const { config } = makeFundamentalFixture('LONG');
+    const { fundamentalTriggerScenarioConfigSchema } = await import('../../../shared/src');
+    // For LONG: entryZone is ['85455.96', '85970.24'], TP is 87800.00, SL is 84800.00.
+    // If we widen entryZone max to 86800.00:
+    // worstEntry = 86800.00, TP = 87800.00 (grossProfit = 1000), SL = 84800.00 (grossLoss = 2000), RR = 0.5 < 1.5.
+    const badZoneConfig = { ...config, entryZone: ['85455.96', '86800.00'] };
+    expect(() => fundamentalTriggerScenarioConfigSchema.parse(badZoneConfig)).toThrow('Net reward-risk ratio at worst entry zone boundary');
+  });
+
+  it('rejects SHORT scenario config where net RR at worst entry zone boundary is below 1.5', async () => {
+    const { config } = makeFundamentalFixture('SHORT');
+    const { fundamentalTriggerScenarioConfigSchema } = await import('../../../shared/src');
+    // For SHORT: entryZone is ['85400.00', '86000.00'], TP is 82000.00, SL is 86800.00.
+    // Worst entry for SHORT is minZone (85400.00).
+    // If minZone is lowered to 83000.00:
+    // worstEntry = 83000.00, TP = 82000.00 (grossProfit = 1000), SL = 86800.00 (grossLoss = 3800), RR = 0.26 < 1.5.
+    const badZoneConfig = { ...config, entryZone: ['83000.00', '86000.00'] };
+    expect(() => fundamentalTriggerScenarioConfigSchema.parse(badZoneConfig)).toThrow('Net reward-risk ratio at worst entry zone boundary');
+  });
+
+  it('rejects scenario config where minRewardRisk is configured below 1.5', async () => {
+    const { config } = makeFundamentalFixture('LONG');
+    const { fundamentalTriggerScenarioConfigSchema } = await import('../../../shared/src');
+    const lowMinRrConfig = { ...config, minRewardRisk: '1.2' };
+    expect(() => fundamentalTriggerScenarioConfigSchema.parse(lowMinRrConfig)).toThrow('RR must be at least 1.5');
+  });
+
+  it('rejects scenario config where gross RR is >= 1.5 but fees/costs drag net RR below 1.5', async () => {
+    const { config } = makeFundamentalFixture('LONG');
+    const { fundamentalTriggerScenarioConfigSchema } = await import('../../../shared/src');
+    // Gross RR is ~1.5636. Adding 30 bps entry fee and 30 bps exit fee drags net RR below 1.5.
+    const costlyConfig = {
+      ...config,
+      costs: {
+        ...config.costs,
+        entryFeeBps: '30',
+        exitFeeBps: '30',
+        exitSlippageBps: '10',
+      },
+    };
+    expect(() => fundamentalTriggerScenarioConfigSchema.parse(costlyConfig)).toThrow('Net reward-risk ratio at worst entry zone boundary');
+  });
+
+  it('validates scenario config using takeProfitUsdt and stopLossUsdt directly', async () => {
+    const { config } = makeFundamentalFixture('SHORT');
+    const { fundamentalTriggerScenarioConfigSchema } = await import('../../../shared/src');
+    const usdtConfig = {
+      ...config,
+      takeProfitUsd: undefined,
+      stopLossUsd: undefined,
+      takeProfitUsdt: '82000.00',
+      stopLossUsdt: '86800.00',
+    };
+    expect(() => fundamentalTriggerScenarioConfigSchema.parse(usdtConfig)).not.toThrow();
+  });
+
+  it('rejects scenario config using takeProfitUsdt and stopLossUsdt when net RR is below 1.5', async () => {
+    const { config } = makeFundamentalFixture('SHORT');
+    const { fundamentalTriggerScenarioConfigSchema } = await import('../../../shared/src');
+    const badUsdtConfig = {
+      ...config,
+      takeProfitUsd: undefined,
+      stopLossUsd: undefined,
+      takeProfitUsdt: '84000.00',
+      stopLossUsdt: '86800.00',
+    };
+    expect(() => fundamentalTriggerScenarioConfigSchema.parse(badUsdtConfig)).toThrow('Net reward-risk ratio at worst entry zone boundary');
+  });
 });
+
