@@ -1,0 +1,80 @@
+{
+  "strategyId": "btc-strategy-fundamental-trigger-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-fund-20261011-1300",
+  "validFromUtc": "2026-10-11T13:00:00Z",
+  "expiresAtUtc": "2026-10-12T13:00:00Z",
+  "timezone": "America/Mexico_City",
+  "direction": "SHORT",
+  "referencePriceUsdt": "83068.95",
+  "entryZone": [
+    "82650.00",
+    "83485.00"
+  ],
+  "takeProfitUsd": "80000.00",
+  "stopLossUsd": "83800.00",
+  "takeProfitUsdt": "80000.00",
+  "stopLossUsdt": "83800.00",
+  "levels": {
+    "LONG": {
+      "takeProfitUsd": "80000.00",
+      "stopLossUsd": "83800.00"
+    },
+    "SHORT": {
+      "takeProfitUsd": "80000.00",
+      "stopLossUsd": "83800.00"
+    }
+  },
+  "projectedRange": [
+    "79500.00",
+    "83850.00"
+  ],
+  "thesis": "Drenaje neto semanal de ETFs spot (-710M USD), DXY en 102.21 y US10Y en 5.24% mantienen sesgo bajista estructural frente a festivo de Columbus Day y liquidez reducida.",
+  "demo": false,
+  "validationStatus": "VALIDATED",
+  "sourcesValidated": true,
+  "tradingMode": "dry_run",
+  "environment": "mainnet",
+  "allowNewEntries": true,
+  "closeOnScenarioExpiry": true,
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "freshness": {
+    "quoteSeconds": 60,
+    "fxSeconds": 60
+  },
+  "nextEvaluationSeconds": 60,
+  "minRewardRisk": "1.5",
+  "costs": {
+    "entryFeeBps": "0",
+    "exitFeeBps": "0",
+    "exitSlippageBps": "0",
+    "fundingToTpPerBtcUsdt": "0",
+    "fundingToSlPerBtcUsdt": "0",
+    "description": "Supuestos de costes de escenario para evaluación de relación beneficio/riesgo."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000",
+    "leverage": "20",
+    "marginMode": "REGULAR",
+    "positionMode": "ONE_WAY",
+    "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1,
+    "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10",
+    "entryOrderType": "Limit",
+    "timeInForce": "IOC",
+    "tpslMode": "Full",
+    "tpOrderType": "Market",
+    "slOrderType": "Market",
+    "tpTriggerBy": "LastPrice",
+    "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01",
+    "protectionTimeoutSeconds": 15
+  }
+}
