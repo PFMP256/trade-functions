@@ -1,0 +1,41 @@
+# ==============================================================================
+# EJEMPLO DE VARIABLES (terraform.tfvars.example)
+# ==============================================================================
+# Copia este archivo como 'terraform.tfvars' si deseas personalizar los valores.
+# RECUERDA: NO EJECUTAR 'terraform apply' HASTA QUE DECIDAS DESPLEGARLO.
+# ==============================================================================
+
+# ID del proyecto en Google Cloud
+project_id = "trade-functions-20261001"
+
+# Región y Zona de la VM
+# Recomendado: us-central1 (más económica que southamerica-east1)
+region = "us-central1"
+zone   = "us-central1-a"
+
+# Nombre de la máquina virtual
+instance_name = "trade-dev-host"
+
+# Tipo de máquina:
+# - "e2-standard-2": 2 vCPUs, 8 GB RAM (~$0.067/hora encendida, $0 apagada) -> Recomendado
+# - "e2-medium":     2 vCPUs, 4 GB RAM (~$0.034/hora encendida, $0 apagada) -> Ultra-económico
+machine_type = "e2-standard-2"
+
+# Disco persistente de arranque (pd-balanced SSD)
+# Se cobra continuo (~$0.10/GB/mes) tanto encendida como apagada para conservar código y datos.
+# 50 GB = ~$5.00 USD / mes fijo.
+disk_size_gb = 50
+disk_type    = "pd-balanced"
+
+# Imagen base (Ubuntu 24.04 LTS)
+boot_image = "ubuntu-os-cloud/ubuntu-2404-lts-amd64"
+
+# Asignar IP pública efímera
+# $0.005/h encendida, $0.00 apagada (se libera al apagar para no pagar cargos fantasma)
+enable_public_ip = true
+
+# Usuario Linux configurado para el entorno de trabajo
+dev_username = "developer"
+
+# Rangos de red permitidos para SSH directo (0.0.0.0/0 o tu IP pública / VPN)
+allowed_ssh_cidrs = ["0.0.0.0/0"]

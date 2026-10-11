@@ -1,0 +1,11 @@
+# Terraform local execution files and cache
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+[0-9]*.plan
+
+# Sensitive or user-specific variable files
+terraform.tfvars
+*.auto.tfvars
