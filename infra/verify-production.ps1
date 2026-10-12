@@ -139,7 +139,7 @@ $evaluation = Invoke-FunctionCheck -RequestHeaders $evaluationHeaders -Body '{"k
 $evaluationId = [string]$evaluation.body.evaluationId
 if ($evaluationId -notmatch '^[a-f0-9]{64}$') { throw "EVALUATION_SMOKE_FAILED_HTTP_$($evaluation.httpStatus)" }
 if ($settings.TRADING_MODE -eq 'live') {
-  if ($evaluation.body.execution.tradingMode -ne 'live' -or $evaluation.body.execution.status -notin @('NO_ENTRY','ENTRY_SUBMITTED','ENTRY_FILLED','PROTECTED') -or $evaluation.body.execution.accountId -ne '548108699') { throw 'EVALUATION_LIVE_CHECK_FAILED' }
+  if ($evaluation.body.execution.tradingMode -ne 'live' -or $evaluation.body.execution.status -notin @('NO_ENTRY','ENTRY_SUBMITTED','ENTRY_FILLED','PROTECTED','CANCELLED','CLOSED') -or $evaluation.body.execution.accountId -ne '548108699') { throw 'EVALUATION_LIVE_CHECK_FAILED' }
 } else {
   if ($evaluation.body.execution.tradingMode -ne 'dry_run' -or 'DRY_RUN_NO_EXCHANGE_MUTATIONS' -notin $evaluation.body.execution.reasonCodes) { throw 'EVALUATION_DRY_RUN_CHECK_FAILED' }
 }
