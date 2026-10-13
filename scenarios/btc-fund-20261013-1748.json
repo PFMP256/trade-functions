@@ -1,0 +1,80 @@
+{
+  "strategyId": "btc-strategy-fundamental-trigger-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-fund-20261013-1748",
+  "validFromUtc": "2026-10-13T17:48:00Z",
+  "expiresAtUtc": "2026-10-14T17:48:00Z",
+  "timezone": "America/Mexico_City",
+  "direction": "NO OPERAR",
+  "referencePriceUsdt": "N/A",
+  "entryZone": [
+    "N/A",
+    "N/A"
+  ],
+  "takeProfitUsd": "N/A",
+  "stopLossUsd": "N/A",
+  "takeProfitUsdt": "N/A",
+  "stopLossUsdt": "N/A",
+  "levels": {
+    "LONG": {
+      "takeProfitUsd": "N/A",
+      "stopLossUsd": "N/A"
+    },
+    "SHORT": {
+      "takeProfitUsd": "N/A",
+      "stopLossUsd": "N/A"
+    }
+  },
+  "projectedRange": [
+    "N/A",
+    "N/A"
+  ],
+  "thesis": "Salidas netas sostenidas en ETFs spot (-654.5M USD) y DXY neutral (+0.48% en 5d hábiles / +0.26% en 5d calendario) fundamentan sesgo bajista estructural, pero la publicación del IPC (CPI) de EE. UU. el 2026-10-14T12:30:00Z dentro de la ventana de vigencia activa el filtro macro prioritario de NO OPERAR.",
+  "demo": false,
+  "validationStatus": "UNVALIDATED",
+  "sourcesValidated": false,
+  "tradingMode": "dry_run",
+  "environment": "mainnet",
+  "allowNewEntries": false,
+  "closeOnScenarioExpiry": true,
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "freshness": {
+    "quoteSeconds": 60,
+    "fxSeconds": 60
+  },
+  "nextEvaluationSeconds": 60,
+  "minRewardRisk": "1.5",
+  "costs": {
+    "entryFeeBps": "5.5",
+    "exitFeeBps": "5.5",
+    "exitSlippageBps": "5",
+    "fundingToTpPerBtcUsdt": "N/A",
+    "fundingToSlPerBtcUsdt": "N/A",
+    "description": "Supuestos de costes de escenario para evaluación de relación beneficio/riesgo."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000",
+    "leverage": "20",
+    "marginMode": "REGULAR",
+    "positionMode": "ONE_WAY",
+    "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1,
+    "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10",
+    "entryOrderType": "Limit",
+    "timeInForce": "IOC",
+    "tpslMode": "Full",
+    "tpOrderType": "Market",
+    "slOrderType": "Market",
+    "tpTriggerBy": "LastPrice",
+    "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01",
+    "protectionTimeoutSeconds": 15
+  }
+}
