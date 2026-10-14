@@ -1,0 +1,80 @@
+{
+  "strategyId": "btc-strategy-fundamental-trigger-v1",
+  "strategyVersion": "1.0.0",
+  "scenarioId": "btc-fund-20261014-1555",
+  "validFromUtc": "2026-10-14T15:55:00Z",
+  "expiresAtUtc": "2026-10-15T15:55:00Z",
+  "timezone": "America/Mexico_City",
+  "direction": "SHORT",
+  "referencePriceUsdt": "81671.35",
+  "entryZone": [
+    "81263.00",
+    "82079.70"
+  ],
+  "takeProfitUsd": "77100.00",
+  "stopLossUsd": "83600.00",
+  "takeProfitUsdt": "77100.00",
+  "stopLossUsdt": "83600.00",
+  "levels": {
+    "LONG": {
+      "takeProfitUsd": "77100.00",
+      "stopLossUsd": "83600.00"
+    },
+    "SHORT": {
+      "takeProfitUsd": "77100.00",
+      "stopLossUsd": "83600.00"
+    }
+  },
+  "projectedRange": [
+    "77100.00",
+    "83600.00"
+  ],
+  "thesis": "Sesgo fundamental y cuantitativo SHORT determinado por salidas netas sostenidas en los ETFs spot de Bitcoin en EE. UU. (-597.6 M USD acumulados en las últimas 5 sesiones cerradas, con 3 de 5 sesiones negativas) y un DXY neutral/no débil (+0.34 % en 5 días hábiles en 102.21, acompañado de US10Y en 5.304 % tras el repunte del CPI de septiembre a 3.7 % YoY), matizado por reservas en exchanges en 2.68 M BTC y Fear & Greed Index neutral en 56. La estructura intradía confirma ruptura bajista desde el swing high pre-CPI de 83579.89 USDT hacia el mínimo de 81560.96 USDT, proyectando expansión hacia 77100.00 USDT con invalidación en 83600.00 USDT (distancia de 2.98 % y RR neto de 1.5267).",
+  "demo": false,
+  "validationStatus": "UNVALIDATED",
+  "sourcesValidated": false,
+  "tradingMode": "dry_run",
+  "environment": "mainnet",
+  "allowNewEntries": true,
+  "closeOnScenarioExpiry": true,
+  "instrument": {
+    "exchange": "BYBIT",
+    "symbol": "BTCUSDT",
+    "marketType": "LINEAR_PERPETUAL",
+    "category": "linear",
+    "quoteCurrency": "USDT"
+  },
+  "freshness": {
+    "quoteSeconds": 60,
+    "fxSeconds": 60
+  },
+  "nextEvaluationSeconds": 60,
+  "minRewardRisk": "1.5",
+  "costs": {
+    "entryFeeBps": "5.5",
+    "exitFeeBps": "5.5",
+    "exitSlippageBps": "5",
+    "fundingToTpPerBtcUsdt": "24.50",
+    "fundingToSlPerBtcUsdt": "24.50",
+    "description": "Supuestos de costes de escenario para evaluación de relación beneficio/riesgo."
+  },
+  "execution": {
+    "targetPositionNotionalUsd": "2000",
+    "leverage": "20",
+    "marginMode": "REGULAR",
+    "positionMode": "ONE_WAY",
+    "positionIdx": 0,
+    "maxOpenPositionsPerSymbol": 1,
+    "maxEntryIntentsPerScenario": 1,
+    "entrySlippageBps": "10",
+    "entryOrderType": "Limit",
+    "timeInForce": "IOC",
+    "tpslMode": "Full",
+    "tpOrderType": "Market",
+    "slOrderType": "Market",
+    "tpTriggerBy": "LastPrice",
+    "slTriggerBy": "LastPrice",
+    "monetaryPrecisionUsd": "0.01",
+    "protectionTimeoutSeconds": 15
+  }
+}
